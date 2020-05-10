@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">MY Parcel</string>
+    <string name="myparcellogo">myparcellogo</string>
+    <string name="searchbutton">searchbutton</string>
+    <string name="bottom_menu_basket">Basket</string>
+    <string name="bottom_menu_category">Category</string>
+    <string name="bottom_menu_home">Home</string>
+    <string name="bottom_menu_order">Order</string>
+    <string name="bottom_menu_search">Search</string>
+    <string-array name="productkind">
+        <item>Any</item>
+        <item>Toys and Games</item>
+        <item>Kindle Store</item>
+        <item>Prime Video</item>
+        <item>Book</item>
+        <item>Digital music</item>
+        <item>Beauty and Personal Care</item>
+        <item>Arts and crafts</item>
+        <item>Child</item>
+        <item>Motor goods</item>
+        <item>Electronic devices</item>
+        <item>Computer</item>
+        <item>Women fashion</item>
+        <item>Men fashion</item>
+        <item>Girl fashion</item>
+        <item>Boy fashion</item>
+        <item>Home and kitchen</item>
+        <item>Health and family</item>
+        <item>Tools and housing.</item>
+        <item>Deal</item>
+        <item>Companion animal product</item>
+        <item>Video game</item>
+        <item>For industrial and scientific use</item>
+        <item>Software</item>
+        <item>Baggage</item>
+        <item>Sports and outdoor activities</item>
+        <item>Movies and TV</item>
+        <item>Music, CDs, and records</item>
+    </string-array>
+    <string name="bottom_menu_totalpay">Total</string>
+    <string name="bottom_menu_buy">Order all checked Product</string>
+    <string name="bottom_menu_inbasket">Basket</string>
+    <string name="basket_allcheck">All Check</string>
+    <string name="delete">Delete</string>
+    <string name="shipping_place">Shipping Place</string>
+    <string name="ordered_day">Order Date</string>
+    <string name="todaydeal">Today\'s Deal</string>
+    <string name="pay">Pay</string>
+    <string name="searchhint">Enter a Search Word</string>
+    <string name="smaetagproduct">Same Tag Product</string>
+    <string name="smaebrandproduct">Same Brand Product</string>
+    <string name="putstarmessage">How many stars will you give me?</string>
+    <string name="putstarokbutton">Give a star</string>
+    <string name="cancel">Cancel</string>
+    <string name="putthebasketButton">Add to Cart</string>
+    <string name="putthebasketButton_off">Stored in Cart</string>
+    <string name="orderingButton">Direct purchase</string>
+    <string name="orderCancel">Order Cancel</string>
+    <string name="orderingbutton">Order</string>
+</resources>
