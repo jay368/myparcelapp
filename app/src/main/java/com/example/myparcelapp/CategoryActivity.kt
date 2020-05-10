@@ -25,6 +25,10 @@ class CategoryActivity : Activity() , BottomNavigationView.OnNavigationItemSelec
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_category)
 
+        val bottomNavigationView : BottomNavigationView = navigationView as BottomNavigationView
+        bottomNavigationView.selectedItemId=R.id.category
+        bottomNavigationView.setOnNavigationItemSelectedListener(this)
+        
         LayoutsLoad()
     }
 
@@ -62,8 +66,6 @@ class CategoryActivity : Activity() , BottomNavigationView.OnNavigationItemSelec
             R.id.category ->{
                 val intent = Intent(this, CategoryActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                val bottomNavigationView : BottomNavigationView = navigationView as BottomNavigationView
-                bottomNavigationView.selectedItemId=R.id.home
                 startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
                 return true;
             }
@@ -74,7 +76,7 @@ class CategoryActivity : Activity() , BottomNavigationView.OnNavigationItemSelec
                 return true;
             }
             R.id.home -> {
-                val intent = Intent(this, BasketActivity::class.java)
+                val intent = Intent(this, MainActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
                 return true;

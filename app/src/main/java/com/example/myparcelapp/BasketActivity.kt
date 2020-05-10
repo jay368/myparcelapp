@@ -46,6 +46,7 @@ class BasketActivity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
         ab.setDisplayHomeAsUpEnabled(true);
 
         val bottomNavigationView : BottomNavigationView = navigationView as BottomNavigationView
+        bottomNavigationView.selectedItemId=R.id.basket
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
         Log.d("BasketListInitialize()","BasketListInitialize()")
         //밑의 바로구매 버튼이 있는 아래 네비게이션 매뉴
@@ -171,8 +172,6 @@ class BasketActivity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
             R.id.category ->{
                 val intent = Intent(this, CategoryActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                val bottomNavigationView : BottomNavigationView = navigationView as BottomNavigationView
-                bottomNavigationView.selectedItemId=R.id.home
                 startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
                 return true;
             }
@@ -183,7 +182,7 @@ class BasketActivity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
                 return true;
             }
             R.id.home -> {
-                val intent = Intent(this, BasketActivity::class.java)
+                val intent = Intent(this, MainActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
                 return true;

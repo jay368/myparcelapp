@@ -35,18 +35,19 @@ class MainActivity : Activity() , BottomNavigationView.OnNavigationItemSelectedL
         IP = resources.getString(R.string.homepageIP)
 
         val bottomNavigationView : BottomNavigationView = navigationView as BottomNavigationView
+        bottomNavigationView.selectedItemId=R.id.home
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
 
         val wb: WebView = WebView(this)
         wb.loadUrl(IP+"/sessiontest/")
         //로그인 해결되기 전까진 이렇게 한다.
 
-        spinner_searchfilter.onItemSelectedListener= object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
-                search_button_event.SetOptions_flt(position.toString())
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
+//        spinner_searchfilter.onItemSelectedListener= object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
+//                search_button_event.SetOptions_flt(position.toString())
+//            }
+//            override fun onNothingSelected(parent: AdapterView<*>?) {}
+//        }
 
         TodayDealInitialize(this)
     }
@@ -59,8 +60,6 @@ class MainActivity : Activity() , BottomNavigationView.OnNavigationItemSelectedL
             R.id.category ->{
                 val intent = Intent(this, CategoryActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                val bottomNavigationView : BottomNavigationView = navigationView as BottomNavigationView
-                bottomNavigationView.selectedItemId=R.id.home
                 startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
                 return true;
             }
@@ -71,7 +70,7 @@ class MainActivity : Activity() , BottomNavigationView.OnNavigationItemSelectedL
                 return true;
             }
             R.id.home -> {
-                val intent = Intent(this, BasketActivity::class.java)
+                val intent = Intent(this, MainActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
                 return true;
