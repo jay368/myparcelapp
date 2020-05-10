@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide
 import com.example.myparcelapp.dto.OrderProductsVO
 import com.example.myparcelapp.dto.OrderVOList
 import com.example.myparcelapp.service.OrderService
+import com.example.myparcelapp.utils.ActivityTransferManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_basket.*
 import kotlinx.android.synthetic.main.activity_main.*
@@ -36,7 +37,6 @@ class Order_Activity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
 
     var IP=""
     lateinit var wb: WebView
-    lateinit var bottomNavigationView : BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,10 +48,6 @@ class Order_Activity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
         ab.setDisplayShowTitleEnabled(true);
         ab.setDisplayHomeAsUpEnabled(true);
 
-        bottomNavigationView = navigationView as BottomNavigationView
-        bottomNavigationView.setOnNavigationItemSelectedListener(this)
-        bottomNavigationView.selectedItemId = R.id.order
-
         wb = WebView(this)
         wb.setWebViewClient(object : WebViewClient() {
             override fun onPageFinished(view:WebView, url:String) {
@@ -62,7 +58,12 @@ class Order_Activity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
         OrderInitialize()
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        val bottomNavigationView = navigationView as BottomNavigationView
+        bottomNavigationView.selectedItemId = R.id.order
+        bottomNavigationView.setOnNavigationItemSelectedListener(this)
+    }
 
     fun OrderInitialize(){
 
@@ -133,40 +134,7 @@ class Order_Activity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
-        when(p0.itemId){
-            R.id.category ->{
-                intent = Intent(this, CategoryActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-                bottomNavigationView.selectedItemId = R.id.order
-                return true
-            }
-            R.id.search -> {
-                intent = Intent(this, SearchActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-                bottomNavigationView.selectedItemId = R.id.order
-                return true
-            }
-            R.id.home -> {
-                intent = Intent(this, MainActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-                bottomNavigationView.selectedItemId = R.id.order
-                return true
-            }
-            R.id.basket -> {
-                intent = Intent(this, BasketActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-                bottomNavigationView.selectedItemId = R.id.order
-                return true
-            }
-            R.id.order -> {
-                return true
-            }
-        }
-        return true
+        return ActivityTransferManager.startActivityByBottomTabClick(this, R.id.order, p0.itemId)
     }
 
 

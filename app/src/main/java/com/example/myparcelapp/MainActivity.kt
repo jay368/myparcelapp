@@ -14,6 +14,7 @@ import androidx.annotation.RequiresApi
 import com.bumptech.glide.Glide
 import com.example.myparcelapp.dto.ProductVOList
 import com.example.myparcelapp.service.TodayDealService
+import com.example.myparcelapp.utils.ActivityTransferManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_searchresult.*
@@ -34,10 +35,6 @@ class MainActivity : Activity() , BottomNavigationView.OnNavigationItemSelectedL
         setContentView(R.layout.activity_main)
         IP = resources.getString(R.string.homepageIP)
 
-        val bottomNavigationView : BottomNavigationView = navigationView as BottomNavigationView
-        bottomNavigationView.selectedItemId=R.id.home
-        bottomNavigationView.setOnNavigationItemSelectedListener(this)
-
         val wb: WebView = WebView(this)
         wb.loadUrl(IP+"/sessiontest/")
         //로그인 해결되기 전까진 이렇게 한다.
@@ -52,49 +49,17 @@ class MainActivity : Activity() , BottomNavigationView.OnNavigationItemSelectedL
         TodayDealInitialize(this)
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        val bottomNavigationView : BottomNavigationView = navigationView as BottomNavigationView
+        bottomNavigationView.selectedItemId=R.id.home
+        bottomNavigationView.setOnNavigationItemSelectedListener(this)
+    }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
-        when(p0.itemId){
-            R.id.category ->{
-                val intent = Intent(this, CategoryActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-                return true;
-            }
-            R.id.search -> {
-                val intent = Intent(this, SearchActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-                return true;
-            }
-            R.id.home -> {
-                val intent = Intent(this, MainActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-                return true;
-            }
-            R.id.basket -> {
-                val intent = Intent(this, BasketActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-                return true;
-            }
-            R.id.order -> {
-                val intent2 = Intent(this, Order_Activity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent2 , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-                return true;
-            }
-        }
-        return true
+        return ActivityTransferManager.startActivityByBottomTabClick(this, R.id.home, p0.itemId)
     }
-
-
-
-
-
 
 
 

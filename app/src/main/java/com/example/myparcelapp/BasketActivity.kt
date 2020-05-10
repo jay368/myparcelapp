@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.myparcelapp.dto.BasketProductVOList
 import com.example.myparcelapp.service.BasketProductService
+import com.example.myparcelapp.utils.ActivityTransferManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_basket.*
 import kotlinx.android.synthetic.main.activity_basket.navigationView
@@ -45,9 +46,6 @@ class BasketActivity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
         ab.setDisplayShowTitleEnabled(true);
         ab.setDisplayHomeAsUpEnabled(true);
 
-        val bottomNavigationView : BottomNavigationView = navigationView as BottomNavigationView
-        bottomNavigationView.selectedItemId=R.id.basket
-        bottomNavigationView.setOnNavigationItemSelectedListener(this)
         Log.d("BasketListInitialize()","BasketListInitialize()")
         //밑의 바로구매 버튼이 있는 아래 네비게이션 매뉴
 
@@ -60,6 +58,13 @@ class BasketActivity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
             }
         });
         //로그인 문제가 해결되기 전까지는 임시적으로 웹뷰를 통해 로그인용 쿠키를 얻는다.
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val bottomNavigationView : BottomNavigationView = navigationView as BottomNavigationView
+        bottomNavigationView.selectedItemId=R.id.basket
+        bottomNavigationView.setOnNavigationItemSelectedListener(this)
     }
 
     fun onclick7(v:View) {//한번에 모두체크 버튼
@@ -168,39 +173,7 @@ class BasketActivity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
-        when(p0.itemId){
-            R.id.category ->{
-                val intent = Intent(this, CategoryActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-                return true;
-            }
-            R.id.search -> {
-                val intent = Intent(this, SearchActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-                return true;
-            }
-            R.id.home -> {
-                val intent = Intent(this, MainActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-                return true;
-            }
-            R.id.basket -> {
-                val intent = Intent(this, BasketActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-                return true;
-            }
-            R.id.order -> {
-                val intent2 = Intent(this, Order_Activity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent2 , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-                return true;
-            }
-        }
-        return true
+        return ActivityTransferManager.startActivityByBottomTabClick(this, R.id.basket, p0.itemId)
     }
 }
 
