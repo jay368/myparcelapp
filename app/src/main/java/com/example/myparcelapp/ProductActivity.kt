@@ -4,34 +4,25 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.CookieManager
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ImageView
-import androidx.annotation.RequiresApi
 import com.bumptech.glide.Glide
 import com.example.myparcelapp.dto.ProductVO
 import com.example.myparcelapp.dto.ProductVOList
+import com.example.myparcelapp.service.ProductPageService
 import kotlinx.android.synthetic.main.activity_product.*
 import kotlinx.android.synthetic.main.alert_putstar.view.*
 import kotlinx.android.synthetic.main.standard_product.view.*
-import okhttp3.JavaNetCookieJar
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.net.CookieHandler
-import java.util.concurrent.TimeUnit
 
 
 class ProductActivity : Activity() {

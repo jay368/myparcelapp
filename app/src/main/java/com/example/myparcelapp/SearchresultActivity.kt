@@ -13,6 +13,7 @@ import android.widget.AdapterView.OnItemSelectedListener
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.myparcelapp.dto.ProductVOList
+import com.example.myparcelapp.service.TodayDealService
 import kotlinx.android.synthetic.main.activity_searchresult.*
 import kotlinx.android.synthetic.main.standard_product.view.*
 import retrofit2.Call

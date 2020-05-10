@@ -7,7 +7,6 @@ import android.widget.SearchView
 import androidx.annotation.RequiresApi
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.layout_search.view.*
 
 class SearchButton : SearchView.OnQueryTextListener {
     var any:String
@@ -61,7 +60,7 @@ class SearchButton : SearchView.OnQueryTextListener {
            (activity as SearchresultActivity).SearchResultListInitialize(query,flt,st,tag_temp,br_temp,agn,activity)
        }
         else{
-           (activity as MainActivity).StartActivitySearchresultActivity(query, flt)
+           (activity as SearchActivity).StartActivitySearchresultActivity(query, flt)
        }
        return true
 

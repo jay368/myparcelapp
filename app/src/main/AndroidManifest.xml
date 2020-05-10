@@ -15,7 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".OrderingActivity"></activity>
+        <activity android:name=".CategoryActivity"></activity>
+        <activity android:name=".SearchActivity" />
+        <activity android:name=".OrderingActivity" />
         <activity
             android:name=".Order_Activity"
             android:parentActivityName=".MainActivity" />

@@ -1,6 +1,9 @@
 package com.example.myparcelapp
 
+import android.app.ActivityOptions
+import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,11 +16,15 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.CheckBox
 import android.widget.CompoundButton
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.myparcelapp.dto.BasketProductVOList
+import com.example.myparcelapp.service.BasketProductService
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_basket.*
+import kotlinx.android.synthetic.main.activity_basket.navigationView
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.basket_product.view.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -39,7 +46,6 @@ class BasketActivity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
         ab.setDisplayHomeAsUpEnabled(true);
 
         val bottomNavigationView : BottomNavigationView = navigationView as BottomNavigationView
-        bottomNavigationView.selectedItemId=R.id.home
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
         Log.d("BasketListInitialize()","BasketListInitialize()")
         //밑의 바로구매 버튼이 있는 아래 네비게이션 매뉴
@@ -154,19 +160,48 @@ class BasketActivity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
         }
     }
 
+
+    override fun onBackPressed() {
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
         when(p0.itemId){
-            R.id.totalpay ->{
+            R.id.category ->{
+                val intent = Intent(this, CategoryActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                val bottomNavigationView : BottomNavigationView = navigationView as BottomNavigationView
+                bottomNavigationView.selectedItemId=R.id.home
+                startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
                 return true;
             }
-            R.id.buy ->{
+            R.id.search -> {
+                val intent = Intent(this, SearchActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+                return true;
+            }
+            R.id.home -> {
+                val intent = Intent(this, BasketActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+                return true;
+            }
+            R.id.basket -> {
+                val intent = Intent(this, BasketActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+                return true;
+            }
+            R.id.order -> {
+                val intent2 = Intent(this, Order_Activity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent2 , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
                 return true;
             }
         }
         return true
-    }
-
-    override fun onBackPressed() {
     }
 }
 

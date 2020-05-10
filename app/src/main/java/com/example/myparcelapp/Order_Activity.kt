@@ -13,6 +13,7 @@ import android.webkit.WebViewClient
 import com.bumptech.glide.Glide
 import com.example.myparcelapp.dto.OrderProductsVO
 import com.example.myparcelapp.dto.OrderVOList
+import com.example.myparcelapp.service.OrderService
 import kotlinx.android.synthetic.main.activity_order_.*
 import kotlinx.android.synthetic.main.layout_order.*
 import kotlinx.android.synthetic.main.layout_order.view.*

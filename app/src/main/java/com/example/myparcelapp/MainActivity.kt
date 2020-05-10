@@ -13,12 +13,10 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import com.bumptech.glide.Glide
 import com.example.myparcelapp.dto.ProductVOList
+import com.example.myparcelapp.service.TodayDealService
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_searchresult.*
-import kotlinx.android.synthetic.main.layout_category.*
-import kotlinx.android.synthetic.main.layout_home.*
-import kotlinx.android.synthetic.main.layout_search.view.*
 import kotlinx.android.synthetic.main.standard_product.view.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -36,22 +34,12 @@ class MainActivity : Activity() , BottomNavigationView.OnNavigationItemSelectedL
         setContentView(R.layout.activity_main)
         IP = resources.getString(R.string.homepageIP)
 
-        include_home.visibility=View.VISIBLE
         val bottomNavigationView : BottomNavigationView = navigationView as BottomNavigationView
-        bottomNavigationView.selectedItemId=R.id.home
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
 
         val wb: WebView = WebView(this)
         wb.loadUrl(IP+"/sessiontest/")
         //로그인 해결되기 전까진 이렇게 한다.
-        search_button_event = SearchButton(this,
-                                            applicationContext,
-                                            include_search.spinner_searchfilter.selectedItemId.toString(),
-                                            resources.getStringArray(R.array.productkind)[0].toString())
-        include_search.searchview1.isSubmitButtonEnabled = true;
-        include_search.searchview1.setOnQueryTextListener(search_button_event)
-        searchview1.isSubmitButtonEnabled = true;
-        searchview1.setOnQueryTextListener(search_button_event)
 
         spinner_searchfilter.onItemSelectedListener= object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
@@ -60,54 +48,43 @@ class MainActivity : Activity() , BottomNavigationView.OnNavigationItemSelectedL
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-        LayoutsLoad()
         TodayDealInitialize(this)
     }
 
-    fun StartActivitySearchresultActivity(query:String, flt:String){
-        val intent = Intent(applicationContext, SearchresultActivity::class.java)
-        intent.putExtra("sch",query);//검색단어
-        intent.putExtra("flt",flt);//필터
-        intent.putExtra("st","0");//몇 별점 이상이여야만 검색되는가
-        intent.putExtra("tag","");//태그
-        intent.putExtra("br","");//브랜드
-        intent.putExtra("agn","0");//정렬
-        val bottomNavigationView : BottomNavigationView = navigationView as BottomNavigationView
-        bottomNavigationView.selectedItemId=R.id.home
-        startActivity(intent)
-    }
+
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
-        include_category.visibility=View.GONE
-        include_search.visibility=View.GONE
-        include_home.visibility=View.GONE
         when(p0.itemId){
             R.id.category ->{
-                include_category.visibility=View.VISIBLE
-                return true;
-            }
-            R.id.search -> {
-                include_search.visibility=View.VISIBLE
-                return true;
-            }
-            R.id.home -> {
-                include_search.spinner_searchfilter.setSelection(0)
-                include_home.visibility=View.VISIBLE
-                TodayDealInitialize(this)
-                return true;
-            }
-            R.id.basket -> {
-                val intent = Intent(this, BasketActivity::class.java)
+                val intent = Intent(this, CategoryActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 val bottomNavigationView : BottomNavigationView = navigationView as BottomNavigationView
                 bottomNavigationView.selectedItemId=R.id.home
                 startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
                 return true;
             }
+            R.id.search -> {
+                val intent = Intent(this, SearchActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+                return true;
+            }
+            R.id.home -> {
+                val intent = Intent(this, BasketActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+                return true;
+            }
+            R.id.basket -> {
+                val intent = Intent(this, BasketActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+                return true;
+            }
             R.id.order -> {
                 val intent2 = Intent(this, Order_Activity::class.java)
-                val bottomNavigationView : BottomNavigationView = navigationView as BottomNavigationView
-                bottomNavigationView.selectedItemId=R.id.home
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent2 , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
                 return true;
             }
@@ -115,33 +92,7 @@ class MainActivity : Activity() , BottomNavigationView.OnNavigationItemSelectedL
         return true
     }
 
-    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    fun LayoutsLoad(){//카테고리 레이아웃
-        table_category.removeAllViews()
-        var categorystr:Array<String> = resources.getStringArray(R.array.productkind);
 
-        var strindex=0;
-        var i = 0
-        while (true){
-            var row = TableRow(this);
-            row.layoutParams= TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f)
-            row.gravity = Gravity.FILL
-            row.textAlignment = View.TEXT_ALIGNMENT_CENTER
-            for (j in 0 ..3){
-                var newbt = Button(this)
-                newbt.setText(categorystr.get(strindex))
-                newbt.setTextSize(15F)
-                newbt.layoutParams= TableRow.LayoutParams(0, 180, 1f)
-                row.addView(newbt)
-
-                strindex+=1
-                if(strindex>=categorystr.size)break
-            }
-            table_category.addView(row)
-            if(strindex>=categorystr.size)break
-            i++
-        }
-    }
 
 
 
