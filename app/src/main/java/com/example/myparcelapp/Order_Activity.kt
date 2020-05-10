@@ -1,6 +1,10 @@
 package com.example.myparcelapp
 
+import android.app.Activity
+import android.app.ActivityOptions
+import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,11 +14,16 @@ import android.view.MenuItem
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.annotation.RequiresApi
 import com.bumptech.glide.Glide
 import com.example.myparcelapp.dto.OrderProductsVO
 import com.example.myparcelapp.dto.OrderVOList
 import com.example.myparcelapp.service.OrderService
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.activity_basket.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_order_.*
+import kotlinx.android.synthetic.main.activity_order_.navigationView
 import kotlinx.android.synthetic.main.layout_order.*
 import kotlinx.android.synthetic.main.layout_order.view.*
 import kotlinx.android.synthetic.main.layout_order_product.view.*
@@ -23,10 +32,11 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 
-class Order_Activity : AppCompatActivity(){
+class Order_Activity : AppCompatActivity() , BottomNavigationView.OnNavigationItemSelectedListener{
 
     var IP=""
     lateinit var wb: WebView
+    lateinit var bottomNavigationView : BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +47,10 @@ class Order_Activity : AppCompatActivity(){
         ab.setDisplayShowCustomEnabled(true); //커스터마이징 하기 위해 필요
         ab.setDisplayShowTitleEnabled(true);
         ab.setDisplayHomeAsUpEnabled(true);
+
+        bottomNavigationView = navigationView as BottomNavigationView
+        bottomNavigationView.setOnNavigationItemSelectedListener(this)
+        bottomNavigationView.selectedItemId = R.id.order
 
         wb = WebView(this)
         wb.setWebViewClient(object : WebViewClient() {
@@ -113,6 +127,48 @@ class Order_Activity : AppCompatActivity(){
             Glide.with(applicationContext).load(imgurl).into(olp.olp_imageView);
         }
     }
+
+
+
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    override fun onNavigationItemSelected(p0: MenuItem): Boolean {
+        when(p0.itemId){
+            R.id.category ->{
+                intent = Intent(this, CategoryActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+                bottomNavigationView.selectedItemId = R.id.order
+                return true
+            }
+            R.id.search -> {
+                intent = Intent(this, SearchActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+                bottomNavigationView.selectedItemId = R.id.order
+                return true
+            }
+            R.id.home -> {
+                intent = Intent(this, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+                bottomNavigationView.selectedItemId = R.id.order
+                return true
+            }
+            R.id.basket -> {
+                intent = Intent(this, BasketActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+                bottomNavigationView.selectedItemId = R.id.order
+                return true
+            }
+            R.id.order -> {
+                return true
+            }
+        }
+        return true
+    }
+
 
 
 

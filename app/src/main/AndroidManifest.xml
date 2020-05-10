@@ -15,17 +15,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CategoryActivity"></activity>
-        <activity android:name=".SearchActivity" />
+        <activity android:name=".CategoryActivity"
+            android:launchMode="singleTask"></activity>
+        <activity android:name=".SearchActivity"
+            android:launchMode="singleTask"/>
         <activity android:name=".OrderingActivity" />
         <activity
             android:name=".Order_Activity"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".ProductActivity"
-            android:label="@string/title_activity_product" />
+            android:label="@string/title_activity_product"
+            android:launchMode="singleTask"/>
         <activity android:name=".SearchresultActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+                    android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,7 +39,8 @@
         </activity>
         <activity
             android:name=".BasketActivity"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            android:launchMode="singleTask"/>
     </application>
 
 </manifest>

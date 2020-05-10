@@ -20,10 +20,16 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class CategoryActivity : Activity() , BottomNavigationView.OnNavigationItemSelectedListener {
 
+    lateinit var bottomNavigationView : BottomNavigationView
+
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_category)
+
+        bottomNavigationView = navigationView as BottomNavigationView
+        bottomNavigationView.setOnNavigationItemSelectedListener(this)
+        bottomNavigationView.selectedItemId = R.id.category
 
         LayoutsLoad()
     }
@@ -60,36 +66,35 @@ class CategoryActivity : Activity() , BottomNavigationView.OnNavigationItemSelec
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
         when(p0.itemId){
             R.id.category ->{
-                val intent = Intent(this, CategoryActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                val bottomNavigationView : BottomNavigationView = navigationView as BottomNavigationView
-                bottomNavigationView.selectedItemId=R.id.home
-                startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-                return true;
+                return true
             }
             R.id.search -> {
-                val intent = Intent(this, SearchActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                intent = Intent(this, SearchActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-                return true;
+                bottomNavigationView.selectedItemId = R.id.category
+                return true
             }
             R.id.home -> {
-                val intent = Intent(this, BasketActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                intent = Intent(this, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-                return true;
+                bottomNavigationView.selectedItemId = R.id.category
+                return true
             }
             R.id.basket -> {
-                val intent = Intent(this, BasketActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                intent = Intent(this, BasketActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-                return true;
+                bottomNavigationView.selectedItemId = R.id.category
+                return true
             }
             R.id.order -> {
-                val intent2 = Intent(this, Order_Activity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent2 , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-                return true;
+                intent = Intent(this, Order_Activity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+                bottomNavigationView.selectedItemId = R.id.category
+                return true
             }
         }
         return true

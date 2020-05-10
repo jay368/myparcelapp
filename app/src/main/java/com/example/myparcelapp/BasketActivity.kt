@@ -35,6 +35,8 @@ class BasketActivity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
     var bp_check: ArrayList<CheckBox> = ArrayList<CheckBox>()
     lateinit var wb: WebView
     var IP=""
+    lateinit var bottomNavigationView : BottomNavigationView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_basket)
@@ -45,8 +47,9 @@ class BasketActivity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
         ab.setDisplayShowTitleEnabled(true);
         ab.setDisplayHomeAsUpEnabled(true);
 
-        val bottomNavigationView : BottomNavigationView = navigationView as BottomNavigationView
+        bottomNavigationView = navigationView as BottomNavigationView
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
+        bottomNavigationView.selectedItemId = R.id.basket
         Log.d("BasketListInitialize()","BasketListInitialize()")
         //밑의 바로구매 버튼이 있는 아래 네비게이션 매뉴
 
@@ -169,36 +172,35 @@ class BasketActivity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
         when(p0.itemId){
             R.id.category ->{
-                val intent = Intent(this, CategoryActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                val bottomNavigationView : BottomNavigationView = navigationView as BottomNavigationView
-                bottomNavigationView.selectedItemId=R.id.home
+                intent = Intent(this, CategoryActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-                return true;
+                bottomNavigationView.selectedItemId = R.id.basket
+                return true
             }
             R.id.search -> {
-                val intent = Intent(this, SearchActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                intent = Intent(this, SearchActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-                return true;
+                bottomNavigationView.selectedItemId = R.id.basket
+                return true
             }
             R.id.home -> {
-                val intent = Intent(this, BasketActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                intent = Intent(this, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-                return true;
+                bottomNavigationView.selectedItemId = R.id.basket
+                return true
             }
             R.id.basket -> {
-                val intent = Intent(this, BasketActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-                return true;
+                return true
             }
             R.id.order -> {
-                val intent2 = Intent(this, Order_Activity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent2 , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-                return true;
+                intent = Intent(this, Order_Activity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent , ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+                bottomNavigationView.selectedItemId = R.id.basket
+                return true
             }
         }
         return true
