@@ -1,3 +1,8 @@
+
+# Gradle generated files
+.gradle/
+
+
 .idea/libraries/
 .idea/workspace.xml
 .idea/tasks.xml
