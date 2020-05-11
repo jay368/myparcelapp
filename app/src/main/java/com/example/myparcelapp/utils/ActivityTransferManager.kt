@@ -8,6 +8,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.myparcelapp.*
+import com.example.myparcelapp.view.*
 
 object ActivityTransferManager {
 

@@ -16,26 +16,26 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".CategoryActivity"></activity>
-        <activity android:name=".SearchActivity" />
-        <activity android:name=".OrderingActivity" />
+        <activity android:name=".view.CategoryActivity"></activity>
+        <activity android:name=".view.SearchActivity" />
+        <activity android:name=".view.OrderingActivity" />
         <activity
-            android:name=".Order_Activity"
-            android:parentActivityName=".MainActivity" />
+            android:name=".view.Order_Activity"
+            android:parentActivityName=".view.MainActivity" />
         <activity
-            android:name=".ProductActivity"
+            android:name=".view.ProductActivity"
             android:label="@string/title_activity_product" />
-        <activity android:name=".SearchresultActivity" />
+        <activity android:name=".view.SearchresultActivity" />
         <activity
-            android:name=".BasketActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name=".view.BasketActivity"
+            android:parentActivityName=".view.MainActivity" />
     </application>
 
 </manifest>
