@@ -46,12 +46,13 @@ class Order_Activity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
         ab.setDisplayHomeAsUpEnabled(true);
 
         wb = WebView(this)
-        wb.setWebViewClient(object : WebViewClient() {
+        wb.loadUrl(IP+"/sessiontest/")
+        wb.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view:WebView, url:String) {
                 super.onPageFinished(view, url)
                 OrderInitialize()
             }
-        });
+        };
     }
 
     override fun onResume() {
@@ -104,6 +105,7 @@ class Order_Activity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
                     Log.i("i.prds :: ", i.prds.toString())
                     OlpAddview(i.prds,ol,inflater)
                 }
+
 
                 Log.d("body :: ", body.toString())
                 Log.d("list :: ", list.toString())

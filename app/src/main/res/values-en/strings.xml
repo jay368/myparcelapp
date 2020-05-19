@@ -57,4 +57,9 @@
     <string name="orderingButton">Direct purchase</string>
     <string name="orderCancel">Order Cancel</string>
     <string name="orderingbutton">Order</string>
+    <string name="buy_TotalPay">Total Cost</string>
+    <string name="buy_Orderer">Orderer</string>
+    <string name="buy_Shipping_address">Address</string>
+    <string name="buy_num">Quantity</string>
+    <string name="PleaseAddressInput">Please enter a shipping address.</string>
 </resources>

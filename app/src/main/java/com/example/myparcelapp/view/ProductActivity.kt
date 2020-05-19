@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
@@ -13,6 +14,7 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ImageView
+import androidx.annotation.RequiresApi
 import com.bumptech.glide.Glide
 import com.example.myparcelapp.events.ProductPageOpenOnClick
 import com.example.myparcelapp.R
@@ -20,6 +22,7 @@ import com.example.myparcelapp.utils.RetrofitClientInstance
 import com.example.myparcelapp.dto.ProductVO
 import com.example.myparcelapp.dto.ProductVOList
 import com.example.myparcelapp.service.ProductPageService
+import com.example.myparcelapp.utils.ActivityTransferManager.startActivityBuyButtonClick
 import kotlinx.android.synthetic.main.activity_product.*
 import kotlinx.android.synthetic.main.alert_putstar.view.*
 import kotlinx.android.synthetic.main.standard_product.view.*
@@ -33,6 +36,13 @@ class ProductActivity : Activity() {
     lateinit var pid:String
     var IP=""
     var basketAdded:Int = 0
+    var BuyingProduct_index:String = ""
+    var BuyingProduct_num:Int = 0
+    var BuyingProduct_title:String = ""
+    var BuyingProduct_image:String = ""
+    var BuyingProduct_total:Int = 0
+    var BuyingProduct_pay:Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product)
@@ -40,12 +50,13 @@ class ProductActivity : Activity() {
         pid = intent.getStringExtra("pid")
         ProductInitialize(pid, this)
         wb = WebView(this)
-        wb.setWebViewClient(object : WebViewClient() {
+        wb.loadUrl(IP+"/sessiontest/")
+        wb.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view:WebView, url:String) {
                 super.onPageFinished(view, url)
                 ProductInitialize_one(pid)
             }
-        });
+        };
         //wb.loadUrl("http://192.168.55.231:8080/sessiontest/")
         //로그인 해결되기 전까진 이렇게 한다.
     }
@@ -79,6 +90,10 @@ class ProductActivity : Activity() {
                 bp_textView_pay.setText(list?.get(0)?.pay)
                 textView_inf.setText(list?.get(0)?.explanatory)
                 star.progress= list!![0].star
+                BuyingProduct_index = list!![0].index
+                BuyingProduct_num = 1
+                BuyingProduct_title=list?.get(0)?.name
+                BuyingProduct_pay = list?.get(0)?.pay.toInt()
 
                 basketAdded = list!![0].basketed
                 if(basketAdded == 1){
@@ -115,6 +130,7 @@ class ProductActivity : Activity() {
                     prevealimagebig.addView(imgv)
                     Log.d("i :: ", i.toString())
                 }
+                BuyingProduct_image = IP+body?.pdimages[0]
 
 
                 var sametagProductlist = ArrayList<ProductVO>()
@@ -137,7 +153,7 @@ class ProductActivity : Activity() {
                 layout_tag.removeAllViews()
                 layout_brand.removeAllViews()
 
-                for (i in sametagProductlist){
+                for (i in sametagProductlist){//같은 태그 상품
                     val td = LayoutInflater.from(applicationContext).inflate(R.layout.standard_product, layout_tag, false);
                     val oc =
                         ProductPageOpenOnClick(
@@ -156,7 +172,7 @@ class ProductActivity : Activity() {
                     Log.d("i :: ", i.toString())
                 }
 
-                for (i in samebrandProductlist){
+                for (i in samebrandProductlist){//같은 브랜드 상품
                     val td = LayoutInflater.from(applicationContext).inflate(R.layout.standard_product, layout_brand, false);
                     val oc =
                         ProductPageOpenOnClick(
@@ -164,11 +180,12 @@ class ProductActivity : Activity() {
                             applicationContext,
                             i.index
                         )
-                    layout_brand.addView(td)
-                    td.td_name.setText(i.name.toString())
-                    td.td_pay.setText(paytext+" : "+i.pay.toString()+"KRW")
-                    td.td_star.progress=i.star;
                     td.layout_bp.setOnClickListener(oc)
+                    layout_brand.addView(td)
+                    td.td_name.text=i.name.toString()
+                    td.td_pay.text = paytext+" : "+i.pay.toString()+"KRW"
+                    td.td_star.progress=i.star;
+
 
                     val imgurl = Uri.parse(IP+i.img)
                     Glide.with(applicationContext).load(imgurl).into(td.imageView_td);
@@ -225,5 +242,22 @@ class ProductActivity : Activity() {
         alertDialog.show()
     }
 
+    
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    fun onclick_Buy(v: View) {
+        var buyIndexlist = ArrayList<String>()
+        var buyNumlist = ArrayList<Int>()
+        var buyTitlelist = ArrayList<String>()
+        var buyImagelist = ArrayList<String>()
+        BuyingProduct_num = bp_editText_num.text.toString().toInt()
+        buyIndexlist.add( BuyingProduct_index )
+        buyNumlist.add( BuyingProduct_num )
+        buyTitlelist.add( BuyingProduct_title )
+        buyImagelist.add( BuyingProduct_image )
+        BuyingProduct_total = BuyingProduct_num * BuyingProduct_pay
+        startActivityBuyButtonClick(this, buyIndexlist, buyNumlist, buyTitlelist, buyImagelist, BuyingProduct_total)
+    }
+    //바로 구매
+    //상품 페이지에서는 한 종류밖에 주문할 수 없다.
 
 }

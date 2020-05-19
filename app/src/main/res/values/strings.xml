@@ -30,6 +30,13 @@
     <string name="cancel">취소</string>
     <string name="orderCancel">주문 취소</string>
     <string name="orderingbutton">주문</string>
+    <string name="PleaseAddressInput">배송지를 입력해 주십시오.</string>
+
+    <string name="buy_Orderer">주문자</string>
+    <string name="buy_Shipping_address">배송지</string>
+    <string name="buy_TotalPay">총액</string>
+    <string name="buy_num">수량</string>
+
     <string-array name="productkind">
         <item>모든 부분</item>
         <item>완구 및 게임</item>
@@ -60,8 +67,4 @@
         <item>영화 및 TV</item>
         <item>음악, CD 및 레코드판</item>
     </string-array>
-    <string name="title_activity_product">ProductActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
 </resources>

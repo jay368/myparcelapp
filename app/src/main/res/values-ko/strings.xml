@@ -57,4 +57,9 @@
     <string name="orderingButton">바로 구매</string>
     <string name="orderCancel">주문 취소</string>
     <string name="orderingbutton">주문</string>
+    <string name="buy_Shipping_address">배송지</string>
+    <string name="buy_Orderer">주문자</string>
+    <string name="buy_TotalPay">총액</string>
+    <string name="buy_num">수량</string>
+    <string name="PleaseAddressInput">배송지를 입력해 주십시오.</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.myparcelapp.view
 
+import android.app.Activity
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.CheckBox
@@ -20,8 +22,10 @@ import com.bumptech.glide.Glide
 import com.example.myparcelapp.R
 import com.example.myparcelapp.utils.RetrofitClientInstance
 import com.example.myparcelapp.dto.BasketProductVOList
+import com.example.myparcelapp.events.ProductPageOpenOnClick
 import com.example.myparcelapp.service.BasketProductService
 import com.example.myparcelapp.utils.ActivityTransferManager
+import com.example.myparcelapp.utils.ActivityTransferManager.startActivityProductPage
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_basket.*
 import kotlinx.android.synthetic.main.activity_basket.navigationView
@@ -49,12 +53,13 @@ class BasketActivity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
         //밑의 바로구매 버튼이 있는 아래 네비게이션 매뉴
 
         wb = WebView(this)
-        wb.setWebViewClient(object : WebViewClient() {
+        wb.loadUrl(IP+"/sessiontest/")
+        wb.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view:WebView, url:String) {
                 super.onPageFinished(view, url)
-                BasketListInitialize()
+                BasketListInitialize_one()
             }
-        });
+        };
         //로그인 문제가 해결되기 전까지는 임시적으로 웹뷰를 통해 로그인용 쿠키를 얻는다.
     }
 
@@ -72,7 +77,11 @@ class BasketActivity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
         }
     }
 
-    fun BasketListInitialize(){
+    fun BasketListInitialize_one(){
+        BasketListInitialize(this)
+    }
+
+    fun BasketListInitialize(activity: Activity){
 
         val service = RetrofitClientInstance.retrofitInstance?.create(BasketProductService::class.java);
         val call = service?.basketProductList(resources.getString(R.string.temporarilyUsercode))
@@ -102,6 +111,12 @@ class BasketActivity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
                 for (i in list!!){
                     val bp = LayoutInflater.from(applicationContext).inflate(R.layout.basket_product, basket_products, false);
                     basket_products.addView(bp)
+                    val oc = ProductPageOpenOnClick(
+                            activity,
+                            applicationContext,
+                            i.product_index
+                        )
+                    bp.imageView_bp.setOnClickListener(oc)
                     bp.bp_textView_pay.setText(paytext+" : "+i.pay.toString()+" KRW")
                     bp.bp_textView_pname.setText(i.name)
                     bp.bp_editText_num.setText(i.num.toString())

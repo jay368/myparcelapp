@@ -1,7 +1,6 @@
 package com.example.myparcelapp.view
 
 import android.app.Activity
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -176,9 +175,4 @@ class SearchresultActivity : AppCompatActivity() {
         })
     }
 
-    fun ProductPageOpen(index:String){
-        val intent = Intent(applicationContext, ProductActivity::class.java)
-        intent.putExtra("pid", index)
-        startActivity(intent)
-    }
 }

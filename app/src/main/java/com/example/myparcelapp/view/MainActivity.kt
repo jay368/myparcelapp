@@ -16,6 +16,7 @@ import com.example.myparcelapp.events.ProductPageOpenOnClick
 import com.example.myparcelapp.events.SearchButton
 import com.example.myparcelapp.service.TodayDealService
 import com.example.myparcelapp.utils.ActivityTransferManager
+import com.example.myparcelapp.utils.ActivityTransferManager.startActivityProductPage
 import com.example.myparcelapp.utils.RetrofitClientInstance
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -85,11 +86,7 @@ class MainActivity : Activity() , BottomNavigationView.OnNavigationItemSelectedL
                 for (i in list!!){
                     val td = LayoutInflater.from(applicationContext).inflate(R.layout.standard_product, todaydeallist, false);
                     val oc: ProductPageOpenOnClick =
-                        ProductPageOpenOnClick(
-                            activity,
-                            applicationContext,
-                            i.index
-                        )
+                        ProductPageOpenOnClick(activity,applicationContext,i.index)
                     todaydeallist.addView(td)
                     td.td_name.setText(i.name.toString())
                     td.td_pay.setText(paytext+" : "+i.pay.toString()+"KRW")
@@ -112,12 +109,6 @@ class MainActivity : Activity() , BottomNavigationView.OnNavigationItemSelectedL
         })
     }
 
-
-    fun ProductPageOpen(index:String){
-        val intent = Intent(applicationContext, ProductActivity::class.java)
-        intent.putExtra("pid", index)
-        startActivity(intent)
-    }
 
 
 }

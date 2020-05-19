@@ -15,23 +15,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
+        <activity android:name=".view.BuyActivity"></activity>
         <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".view.CategoryActivity"></activity>
+        <activity android:name=".view.CategoryActivity" />
         <activity android:name=".view.SearchActivity" />
         <activity android:name=".view.OrderingActivity" />
         <activity
             android:name=".view.Order_Activity"
             android:parentActivityName=".view.MainActivity" />
         <activity
-            android:name=".view.ProductActivity"
-            android:label="@string/title_activity_product" />
+            android:name=".view.ProductActivity"/>
         <activity android:name=".view.SearchresultActivity" />
         <activity
             android:name=".view.BasketActivity"

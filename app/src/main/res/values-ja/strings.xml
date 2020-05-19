@@ -57,4 +57,9 @@
     <string name="orderingButton">即買い</string>
     <string name="orderCancel">注文取り消し</string>
     <string name="orderingbutton">注文</string>
+    <string name="buy_Shipping_address">お届け先</string>
+    <string name="buy_Orderer">注文者</string>
+    <string name="buy_TotalPay">総額</string>
+    <string name="buy_num">数量</string>
+    <string name="PleaseAddressInput">お届け先を入力してください。</string>
 </resources>

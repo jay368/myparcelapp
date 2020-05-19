@@ -2,31 +2,26 @@ package com.example.myparcelapp.events
 
 import android.app.Activity
 import android.content.Context
+import android.os.Build
 import android.view.View
-import com.example.myparcelapp.view.MainActivity
-import com.example.myparcelapp.view.ProductActivity
-import com.example.myparcelapp.view.SearchresultActivity
+import androidx.annotation.RequiresApi
+import com.example.myparcelapp.dto.BasketProductVOList
+import com.example.myparcelapp.utils.ActivityTransferManager.startActivityProductPage
+import retrofit2.Callback
 
 open class ProductPageOpenOnClick : View.OnClickListener{
     var pid:String
     var activity: Activity
     var context:Context
-    constructor(activity:Activity, context:Context, pid:String){
+    constructor(activity: Activity, context:Context, pid:String){
         this.pid=pid
         this.activity=activity
         this.context = context
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onClick(v: View) {
-        if(activity.javaClass == MainActivity::class.java){
-            (activity as MainActivity).ProductPageOpen(pid)
-        }
-        else if(activity.javaClass == SearchresultActivity::class.java){
-            (activity as SearchresultActivity).ProductPageOpen(pid)
-        }
-        else if(activity.javaClass == ProductActivity::class.java){
-            (activity as ProductActivity).AnotherProduct(pid)
-        }
+        startActivityProductPage(pid, activity)
     }
 }

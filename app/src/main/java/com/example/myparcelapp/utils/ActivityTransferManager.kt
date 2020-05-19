@@ -23,15 +23,6 @@ object ActivityTransferManager {
 
     }
 
-    private fun startActivity(activity: Activity, intent: Intent?, isPush: Boolean = false) {
-
-        intent?.let {
-            if(isPush) intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            activity.startActivity(intent)
-        }
-
-    }
-
 
 
     private fun startHomeActivity(activity: Activity) {
@@ -68,5 +59,30 @@ object ActivityTransferManager {
 
         return true
     }
+
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    fun startActivityBuyButtonClick(activity: Activity,
+                                    buyIndexlist:ArrayList<String>,
+                                    buyNumlist:ArrayList<Int>,
+                                    buyTitlelist:ArrayList<String>,
+                                    buyImagelist:ArrayList<String>,
+                                    BuyingProduct_total:Int) {
+        var intent: Intent? = null
+        intent = Intent(activity, BuyActivity::class.java)
+        intent.putExtra("buyIndexlist", buyIndexlist)
+        intent.putExtra("buyNumlist", buyNumlist)
+        intent.putExtra("buyTitlelist", buyTitlelist)
+        intent.putExtra("buyImagelist", buyImagelist)
+        intent.putExtra("total", BuyingProduct_total)
+        activity.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(activity).toBundle())
+    }//구매 버튼
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    fun startActivityProductPage(index:String, activity: Activity){
+        val intent = Intent(activity, ProductActivity::class.java)
+        intent.putExtra("pid", index)
+        activity.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(activity).toBundle())
+    }//상품 페이지로 이동
 
 }
