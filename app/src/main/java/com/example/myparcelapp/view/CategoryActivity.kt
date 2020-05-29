@@ -21,40 +21,38 @@ class CategoryActivity : Activity() , BottomNavigationView.OnNavigationItemSelec
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_category)
-
-        LayoutsLoad()
     }
 
     override fun onResume() {
         super.onResume()
-        LayoutsLoad()
+        layoutsLoad()
         val bottomNavigationView : BottomNavigationView = navigationView as BottomNavigationView
         bottomNavigationView.menu.findItem(R.id.category).isChecked=true
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
     }
 
-    fun LayoutsLoad(){//카테고리 레이아웃
-        var categorystr:Array<String> = resources.getStringArray(R.array.productkind);
+    private fun layoutsLoad(){//카테고리 레이아웃
+        var categorystr:Array<String> = resources.getStringArray(R.array.productkind)
 
-        var strindex=0;
+        var strindex=0
         var i = 0
-        while (true){
-            var row = TableRow(this);
-            row.layoutParams= TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f)
+        runwhile@ while (true) {
+            var row = TableRow(this)
+            row.layoutParams = TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f)
             row.gravity = Gravity.FILL
             row.textAlignment = View.TEXT_ALIGNMENT_CENTER
-            for (j in 0 ..3){
+            listOf(0, 1, 2, 3).forEachIndexed { index, value ->
                 var newbt = Button(this)
                 newbt.setText(categorystr.get(strindex))
                 newbt.setTextSize(15F)
-                newbt.layoutParams= TableRow.LayoutParams(0, 180, 1f)
+                newbt.layoutParams = TableRow.LayoutParams(0, 180, 1f)
                 row.addView(newbt)
 
-                strindex+=1
-                if(strindex>=categorystr.size)break
+                strindex += 1
+                if (strindex >= categorystr.size) return@forEachIndexed
             }
             table_category.addView(row)
-            if(strindex>=categorystr.size)break
+            if (strindex >= categorystr.size) break@runwhile
             i++
         }
     }
@@ -62,7 +60,6 @@ class CategoryActivity : Activity() , BottomNavigationView.OnNavigationItemSelec
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
-        return return ActivityTransferManager.startActivityByBottomTabClick(this,
-            R.id.category, p0.itemId)
+        return ActivityTransferManager.startActivityByBottomTabClick(this, R.id.category, p0.itemId)
     }
 }

@@ -1,7 +1,6 @@
 package com.example.myparcelapp.view
 
 import android.app.Activity
-import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -11,12 +10,11 @@ import android.webkit.WebView
 import androidx.annotation.RequiresApi
 import com.bumptech.glide.Glide
 import com.example.myparcelapp.*
-import com.example.myparcelapp.dto.ProductVOList
+import com.example.myparcelapp.model.ProductVOList
 import com.example.myparcelapp.events.ProductPageOpenOnClick
 import com.example.myparcelapp.events.SearchButton
 import com.example.myparcelapp.service.TodayDealService
 import com.example.myparcelapp.utils.ActivityTransferManager
-import com.example.myparcelapp.utils.ActivityTransferManager.startActivityProductPage
 import com.example.myparcelapp.utils.RetrofitClientInstance
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -47,7 +45,7 @@ class MainActivity : Activity() , BottomNavigationView.OnNavigationItemSelectedL
         val bottomNavigationView : BottomNavigationView = navigationView as BottomNavigationView
         bottomNavigationView.menu.findItem(R.id.home).isChecked=true
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
-        TodayDealInitialize(this)
+        todayDealInitialize(this)
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -58,9 +56,9 @@ class MainActivity : Activity() , BottomNavigationView.OnNavigationItemSelectedL
 
 
 
-    fun TodayDealInitialize(activity:Activity){
+    fun todayDealInitialize(activity:Activity){
 
-        val service = RetrofitClientInstance.retrofitInstance?.create(TodayDealService::class.java);
+        val service = RetrofitClientInstance.retrofitInstance?.create(TodayDealService::class.java)
         val call = service?.todaydeallist()
         Log.d("service :: ", service?.toString())
         Log.d("call :: ", call?.toString())
@@ -80,22 +78,22 @@ class MainActivity : Activity() , BottomNavigationView.OnNavigationItemSelectedL
                 val list = body?.prdlist
                 var size = list?.size
                 Log.i("list :: ", list.toString())
-                val paytext = getString(R.string.pay);
+                val paytext = getString(R.string.pay)
 
                 //
-                for (i in list!!){
-                    val td = LayoutInflater.from(applicationContext).inflate(R.layout.standard_product, todaydeallist, false);
+                list!!.forEach{
+                    val td = LayoutInflater.from(applicationContext).inflate(R.layout.standard_product, todaydeallist, false)
                     val oc: ProductPageOpenOnClick =
-                        ProductPageOpenOnClick(activity,applicationContext,i.index)
+                        ProductPageOpenOnClick(activity,applicationContext,it.index)
                     todaydeallist.addView(td)
-                    td.td_name.setText(i.name.toString())
-                    td.td_pay.setText(paytext+" : "+i.pay.toString()+"KRW")
-                    td.td_star.progress=i.star;
+                    td.td_name.setText(it.name.toString())
+                    td.td_pay.setText(paytext+" : "+it.pay.toString()+"KRW")
+                    td.td_star.progress=it.star
                     td.layout_bp.setOnClickListener(oc)
 
-                    val imgurl = Uri.parse(IP+i.img)
-                    Glide.with(applicationContext).load(imgurl).into(td.imageView_td);
-                    Log.d("i :: ", i.toString())
+                    val imgurl = Uri.parse(IP+it.img)
+                    Glide.with(applicationContext).load(imgurl).into(td.imageView_td)
+                    Log.d("i :: ", it.toString())
                 }
 
 

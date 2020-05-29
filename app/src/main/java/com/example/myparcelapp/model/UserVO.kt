@@ -1,4 +1,4 @@
-package com.example.myparcelapp.dto
+package com.example.myparcelapp.model
 
 data class UserVO (
     var index: String,

@@ -15,7 +15,7 @@ import com.example.myparcelapp.events.ProductPageOpenOnClick
 import com.example.myparcelapp.R
 import com.example.myparcelapp.utils.RetrofitClientInstance
 import com.example.myparcelapp.events.SearchButton
-import com.example.myparcelapp.dto.ProductVOList
+import com.example.myparcelapp.model.ProductVOList
 import com.example.myparcelapp.service.TodayDealService
 import kotlinx.android.synthetic.main.activity_searchresult.*
 import kotlinx.android.synthetic.main.standard_product.view.*
@@ -36,7 +36,7 @@ class SearchresultActivity : AppCompatActivity() {
 
 
         val intent = getIntent()
-        SearchResultListInitialize(intent.getStringExtra("sch"),
+        searchResultListInitialize(intent.getStringExtra("sch"),
                                     intent.getStringExtra("flt"),
                                     intent.getStringExtra("st"),
                                     intent.getStringExtra("tag"),
@@ -49,33 +49,33 @@ class SearchresultActivity : AppCompatActivity() {
             "0",
             resources.getStringArray(R.array.productkind)[0].toString()
         )
-        search_button_event.SetOptions_flt(intent.getStringExtra("flt"))
-        search_button_event.SetOptions_st(intent.getStringExtra("st"))
-        search_button_event.SetOptions_tag(intent.getStringExtra("tag"))
-        search_button_event.SetOptions_br(intent.getStringExtra("br"))
-        search_button_event.SetOptions_agn(intent.getStringExtra("agn"))
+        search_button_event.setOptions_flt(intent.getStringExtra("flt"))
+        search_button_event.setOptions_st(intent.getStringExtra("st"))
+        search_button_event.setOptions_tag(intent.getStringExtra("tag"))
+        search_button_event.setOptions_br(intent.getStringExtra("br"))
+        search_button_event.setOptions_agn(intent.getStringExtra("agn"))
         spinner_searchfilter.setSelection(intent.getStringExtra("flt").toInt())
         spinner_searchfilter.onItemSelectedListener= object : OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
-                search_button_event.SetOptions_flt(position.toString())
+                search_button_event.setOptions_flt(position.toString())
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
         spinner_tag.onItemSelectedListener= object : OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?,view: View,position: Int,id: Long) {
-                search_button_event.SetOptions_tag(spinner_tag.selectedItem.toString())
+                search_button_event.setOptions_tag(spinner_tag.selectedItem.toString())
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
         spinner_brand.onItemSelectedListener= object : OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?,view: View,position: Int,id: Long) {
-                search_button_event.SetOptions_br(spinner_brand.selectedItem.toString())
+                search_button_event.setOptions_br(spinner_brand.selectedItem.toString())
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
         ratingBar2.onRatingBarChangeListener = object : RatingBar.OnRatingBarChangeListener {
             override fun onRatingChanged(ratingBar: RatingBar?,rating: Float,fromUser: Boolean) {
-                search_button_event?.SetOptions_st(rating.toInt().toString())
+                search_button_event?.setOptions_st(rating.toInt().toString())
             }
 
         }
@@ -88,13 +88,13 @@ class SearchresultActivity : AppCompatActivity() {
         searchview_Searchresult = menu?.findItem(R.id.action_search)?.actionView as SearchView
         searchview_Searchresult.maxWidth=Integer.MAX_VALUE
         searchview_Searchresult.queryHint=resources.getString(R.string.searchhint)
-        searchview_Searchresult.isSubmitButtonEnabled = true;
+        searchview_Searchresult.isSubmitButtonEnabled = true
         searchview_Searchresult.setOnQueryTextListener(search_button_event)
         return true
     }
 
 
-    fun SearchResultListInitialize(sch:String, flt:String, st:String, tag:String, br:String, agn:String,activity:Activity){
+    fun searchResultListInitialize(sch:String, flt:String, st:String, tag:String, br:String, agn:String,activity:Activity){
         Log.d("sch :: ", sch)
         Log.d("flt :: ", flt)
         Log.d("st :: ", st)
@@ -102,7 +102,7 @@ class SearchresultActivity : AppCompatActivity() {
         Log.d("br :: ", br)
         Log.d("agn :: ", agn)
 
-        val service = RetrofitClientInstance.retrofitInstance?.create(TodayDealService::class.java);
+        val service = RetrofitClientInstance.retrofitInstance?.create(TodayDealService::class.java)
         val call = service?.searchresultlist(sch, flt, st, tag, br, agn)
         Log.d("service :: ", service?.toString())
         Log.d("call :: ", call?.toString())
@@ -122,26 +122,26 @@ class SearchresultActivity : AppCompatActivity() {
                 val list = body?.prdlist
                 var size = list?.size
                 Log.i("list :: ", list.toString())
-                val paytext = getString(R.string.pay);
+                val paytext = getString(R.string.pay)
 
                 Log.d("listsize :: ", list?.size.toString())
-                for (i in list!!){
-                    val td = LayoutInflater.from(applicationContext).inflate(R.layout.standard_product, searchresultview, false);
+                list!!.forEach{
+                    val td = LayoutInflater.from(applicationContext).inflate(R.layout.standard_product, searchresultview, false)
                     val oc =
                         ProductPageOpenOnClick(
                             activity,
                             applicationContext,
-                            i.index
+                            it.index
                         )
                     searchresultview.addView(td)
-                    td.td_name.setText(i.name.toString())
-                    td.td_pay.setText(paytext+" : "+i.pay.toString()+"KRW")
-                    td.td_star.progress=i.star;
+                    td.td_name.setText(it.name.toString())
+                    td.td_pay.setText(paytext+" : "+it.pay.toString()+"KRW")
+                    td.td_star.progress=it.star
                     td.layout_bp.setOnClickListener(oc)
 
-                    val imgurl = Uri.parse(IP+i.img)
-                    Glide.with(applicationContext).load(imgurl).into(td.imageView_td);
-                    Log.d("i :: ", i.toString())
+                    val imgurl = Uri.parse(IP+it.img)
+                    Glide.with(applicationContext).load(imgurl).into(td.imageView_td)
+                    Log.d("i :: ", it.toString())
                 }
                 val list_tag = body?.tag
                 val list_brand = body?.brand
@@ -153,12 +153,12 @@ class SearchresultActivity : AppCompatActivity() {
                     R.layout.spinner_item
                 )
                 tag_items.add(resources.getStringArray(R.array.productkind)[0])
-                for(i in list_tag) {
-                    tag_items.add(i)
+                list_tag.forEach {
+                    tag_items.add(it)
                 }
                 brand_items.add(resources.getStringArray(R.array.productkind)[0])
-                for(i in list_brand) {
-                    brand_items.add(i)
+                list_brand.forEach {
+                    brand_items.add(it)
                 }
 
                 spinner_tag.adapter=tag_items

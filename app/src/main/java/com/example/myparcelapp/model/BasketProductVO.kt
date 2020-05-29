@@ -1,6 +1,5 @@
-package com.example.myparcelapp.dto
+package com.example.myparcelapp.model
 
-import retrofit2.http.GET
 import java.util.*
 
 

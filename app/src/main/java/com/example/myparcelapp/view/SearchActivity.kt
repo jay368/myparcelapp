@@ -36,14 +36,14 @@ class SearchActivity : Activity() , BottomNavigationView.OnNavigationItemSelecte
             spinner_searchfilter.selectedItemId.toString(),
             resources.getStringArray(R.array.productkind)[0].toString()
         )
-        searchview1.isSubmitButtonEnabled = true;
+        searchview1.isSubmitButtonEnabled = true
         searchview1.setOnQueryTextListener(search_button_event)
-        searchview1.isSubmitButtonEnabled = true;
+        searchview1.isSubmitButtonEnabled = true
         searchview1.setOnQueryTextListener(search_button_event)
 
         spinner_searchfilter.onItemSelectedListener= object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
-                search_button_event.SetOptions_flt(position.toString())
+                search_button_event.setOptions_flt(position.toString())
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
@@ -58,14 +58,14 @@ class SearchActivity : Activity() , BottomNavigationView.OnNavigationItemSelecte
     }
 
 
-    fun StartActivitySearchresultActivity(query:String, flt:String){
+    fun startActivitySearchresultActivity(query:String, flt:String){
         val intent = Intent(applicationContext, SearchresultActivity::class.java)
-        intent.putExtra("sch",query);//검색단어
-        intent.putExtra("flt",flt);//필터
-        intent.putExtra("st","0");//몇 별점 이상이여야만 검색되는가
-        intent.putExtra("tag","");//태그
-        intent.putExtra("br","");//브랜드
-        intent.putExtra("agn","0");//정렬
+        intent.putExtra("sch",query)//검색단어
+        intent.putExtra("flt",flt)//필터
+        intent.putExtra("st","0")//몇 별점 이상이여야만 검색되는가
+        intent.putExtra("tag","")//태그
+        intent.putExtra("br","")//브랜드
+        intent.putExtra("agn","0")//정렬
         val bottomNavigationView : BottomNavigationView = navigationView as BottomNavigationView
         bottomNavigationView.selectedItemId= R.id.home
         startActivity(intent)

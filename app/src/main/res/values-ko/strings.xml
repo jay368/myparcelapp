@@ -62,4 +62,6 @@
     <string name="buy_TotalPay">총액</string>
     <string name="buy_num">수량</string>
     <string name="PleaseAddressInput">배송지를 입력해 주십시오.</string>
+    <string name="OrderingComplete">주문이 완료되었습니다!</string>
+    <string name="Basket_checkedPDallbuy">체크한 상품 모두 주문</string>
 </resources>

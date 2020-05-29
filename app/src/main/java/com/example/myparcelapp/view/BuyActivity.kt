@@ -2,9 +2,7 @@ package com.example.myparcelapp.view
 
 import android.app.Activity
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import java.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +11,7 @@ import android.webkit.WebViewClient
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.myparcelapp.R
-import com.example.myparcelapp.dto.UserVO
+import com.example.myparcelapp.model.UserVO
 import com.example.myparcelapp.service.UserService
 import com.example.myparcelapp.utils.RetrofitClientInstance
 import kotlinx.android.synthetic.main.activity_buy.*
@@ -48,27 +46,27 @@ class BuyActivity : Activity() {
         wb.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView, url:String) {
                 super.onPageFinished(view, url)
-                BuyInitialize()
+                buyInitialize()
             }
-        };
+        }
     }
 
-    fun BuyInitialize(){
+    fun buyInitialize(){
         var i = 0
         val intent = getIntent()
         textview_total.text=intent.getStringExtra("total")
         for (buyindex in buyIndexlist){//같은 브랜드 상품
 
-            val td = LayoutInflater.from(applicationContext).inflate(R.layout.layout_order_product, orderlist, false);
+            val td = LayoutInflater.from(applicationContext).inflate(R.layout.layout_order_product, orderlist, false)
             orderlist.addView(td)
             td.olp_textView.setText(buyTitlelist.get(i)+"\n"+resources.getString(R.string.buy_num)+" : "+buyNumlist.get(i))
             val imgurl = Uri.parse(buyImagelist[i])
-            Glide.with(applicationContext).load(imgurl).into(td.olp_imageView);
+            Glide.with(applicationContext).load(imgurl).into(td.olp_imageView)
             i+=1
         }
 
         textview_total.text=total.toString()
-        val service = RetrofitClientInstance.retrofitInstance?.create(UserService::class.java);
+        val service = RetrofitClientInstance.retrofitInstance?.create(UserService::class.java)
         val call = service?.user(resources.getString(R.string.temporarilyUsercode))
         call?.enqueue(object : Callback<UserVO> {
             override fun onFailure(call: Call<UserVO>, t: Throwable) {
@@ -83,7 +81,7 @@ class BuyActivity : Activity() {
         })
     }
 
-    fun OnClickOrdering(v:View){
+    fun onClickOrdering(v:View){
         if(text_address.text.isEmpty()) {//주소에 아무것도 없을 경우
             Toast.makeText(
                 applicationContext,
@@ -94,18 +92,18 @@ class BuyActivity : Activity() {
         }
 
 
-        var p:String = ""//서버에서 상품1_상품2_상품3으로 나눈다.
-        var num:String = ""//서버에서 갯수1_갯수2_갯수3으로 나눈다.
-        var i:Int=0
-        for (str in buyIndexlist){
-            p+= str
+        var p = ""//서버에서 상품1_상품2_상품3으로 나눈다.
+        var num = ""//서버에서 갯수1_갯수2_갯수3으로 나눈다.
+        var i=0
+        buyIndexlist.forEach {
+            p+= it
             i+=1
             if(i < buyIndexlist.size)
                 p+="_"
-        }//배열을 _문자열로 변환
+        }
         i=0
-        for (str in buyNumlist){
-            num+=str
+        buyNumlist.forEach {
+            num+=it
             i+=1
             if(i < buyNumlist.size)
                 num+="_"
@@ -117,6 +115,7 @@ class BuyActivity : Activity() {
                         "&area=" + text_address.text.toString() +
                         "&flag=1"
         wb.postUrl(IP+"/ordering", parameter.toByteArray())
+        Toast.makeText(this,resources.getString(R.string.OrderingComplete),Toast.LENGTH_LONG).show()
         finish()
     }//주문버튼
 }

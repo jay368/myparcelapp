@@ -29,19 +29,19 @@ class SearchButton : SearchView.OnQueryTextListener {
         this.any=any
     }
 
-    fun SetOptions_flt(flt:String){
+    fun setOptions_flt(flt:String){
         this.flt=flt
     }
-    fun SetOptions_st(st:String){
+    fun setOptions_st(st:String){
         this.st=st
     }
-    fun SetOptions_tag(tag:String){
+    fun setOptions_tag(tag:String){
         this.tag=tag
     }
-    fun SetOptions_br(br:String){
+    fun setOptions_br(br:String){
         this.br=br
     }
-    fun SetOptions_agn(agn:String){
+    fun setOptions_agn(agn:String){
         this.agn=agn
     }
 
@@ -57,10 +57,10 @@ class SearchButton : SearchView.OnQueryTextListener {
            if (br_temp == any){
                br_temp = ""
            }
-           (activity as SearchresultActivity).SearchResultListInitialize(query,flt,st,tag_temp,br_temp,agn,activity)
+           (activity as SearchresultActivity).searchResultListInitialize(query,flt,st,tag_temp,br_temp,agn,activity)
        }
         else{
-           (activity as SearchActivity).StartActivitySearchresultActivity(query, flt)
+           (activity as SearchActivity).startActivitySearchresultActivity(query, flt)
        }
        return true
 

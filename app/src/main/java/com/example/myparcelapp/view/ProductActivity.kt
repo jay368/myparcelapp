@@ -19,8 +19,8 @@ import com.bumptech.glide.Glide
 import com.example.myparcelapp.events.ProductPageOpenOnClick
 import com.example.myparcelapp.R
 import com.example.myparcelapp.utils.RetrofitClientInstance
-import com.example.myparcelapp.dto.ProductVO
-import com.example.myparcelapp.dto.ProductVOList
+import com.example.myparcelapp.model.ProductVO
+import com.example.myparcelapp.model.ProductVOList
 import com.example.myparcelapp.service.ProductPageService
 import com.example.myparcelapp.utils.ActivityTransferManager.startActivityBuyButtonClick
 import kotlinx.android.synthetic.main.activity_product.*
@@ -48,23 +48,23 @@ class ProductActivity : Activity() {
         setContentView(R.layout.activity_product)
         IP = resources.getString(R.string.homepageIP)
         pid = intent.getStringExtra("pid")
-        ProductInitialize(pid, this)
+        productInitialize(pid, this)
         wb = WebView(this)
         wb.loadUrl(IP+"/sessiontest/")
         wb.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view:WebView, url:String) {
                 super.onPageFinished(view, url)
-                ProductInitialize_one(pid)
+                productInitialize_one(pid)
             }
-        };
+        }
         //wb.loadUrl("http://192.168.55.231:8080/sessiontest/")
         //로그인 해결되기 전까진 이렇게 한다.
     }
 
 
-    fun ProductInitialize(pid:String, activity: Activity){
+    fun productInitialize(pid:String, activity: Activity){
 
-        val service = RetrofitClientInstance.retrofitInstance?.create(ProductPageService::class.java);
+        val service = RetrofitClientInstance.retrofitInstance?.create(ProductPageService::class.java)
         val call = service?.productlist(pid,resources.getString(R.string.temporarilyUsercode))
         Log.d("service :: ", service?.toString())
         Log.d("call :: ", call?.toString())
@@ -84,7 +84,7 @@ class ProductActivity : Activity() {
                 val list = body?.prdlist
                 var size = list?.size
                 Log.i("list :: ", list.toString())
-                val paytext = getString(R.string.pay);
+                val paytext = getString(R.string.pay)
 
                 bp_textView_name.setText(list?.get(0)?.name)
                 bp_textView_pay.setText(list?.get(0)?.pay)
@@ -118,24 +118,24 @@ class ProductActivity : Activity() {
                 Log.d("star.progress :: ", star.progress.toString())
 
                 prevealimagebig.removeAllViews()
-                for (i in body?.pdimages){
+                body?.pdimages.forEach{
                     var imgv = ImageView(applicationContext)
                     val imgwidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                         320F, getResources().getDisplayMetrics()).toInt()
                     val imgheight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                         320F, getResources().getDisplayMetrics()).toInt()
                     imgv.layoutParams= ViewGroup.LayoutParams(imgwidth,imgheight)
-                    val imgurl = Uri.parse(IP+i)
-                    Glide.with(applicationContext).load(imgurl).into(imgv);
+                    val imgurl = Uri.parse(IP+it)
+                    Glide.with(applicationContext).load(imgurl).into(imgv)
                     prevealimagebig.addView(imgv)
-                    Log.d("i :: ", i.toString())
+                    Log.d("i :: ", it.toString())
                 }
                 BuyingProduct_image = IP+body?.pdimages[0]
 
 
                 var sametagProductlist = ArrayList<ProductVO>()
-                for (i in body?.prdlist_sametag){
-                    sametagProductlist.add(i)
+                body?.prdlist_sametag.forEach{
+                    sametagProductlist.add(it)
                 }
                 sametagProductlist.removeAt(sametagProductlist.size - 1)
                 var arr2 =  HashSet<ProductVO>(sametagProductlist)
@@ -144,8 +144,8 @@ class ProductActivity : Activity() {
 
 
                 var samebrandProductlist = ArrayList<ProductVO>()
-                for (i in body?.prdlist_samebrand){
-                    samebrandProductlist.add(i)
+                body?.prdlist_samebrand.forEach{
+                    samebrandProductlist.add(it)
                 }
                 var arr3 =  HashSet<ProductVO>(samebrandProductlist)
                 samebrandProductlist.clear()
@@ -153,47 +153,47 @@ class ProductActivity : Activity() {
                 layout_tag.removeAllViews()
                 layout_brand.removeAllViews()
 
-                for (i in sametagProductlist){//같은 태그 상품
-                    val td = LayoutInflater.from(applicationContext).inflate(R.layout.standard_product, layout_tag, false);
+                sametagProductlist.forEach{//같은 태그 상품
+                    val td = LayoutInflater.from(applicationContext).inflate(R.layout.standard_product, layout_tag, false)
                     val oc =
                         ProductPageOpenOnClick(
                             activity,
                             applicationContext,
-                            i.index
+                            it.index
                         )
                     layout_tag.addView(td)
-                    td.td_name.setText(i.name.toString())
-                    td.td_pay.setText(paytext+" : "+i.pay.toString()+"KRW")
-                    td.td_star.progress=i.star;
+                    td.td_name.text = it.name.toString()
+                    td.td_pay.text = paytext+" : "+it.pay.toString()+"KRW"
+                    td.td_star.progress=it.star
                     td.layout_bp.setOnClickListener(oc)
 
-                    val imgurl = Uri.parse(IP+i.img)
-                    Glide.with(applicationContext).load(imgurl).into(td.imageView_td);
-                    Log.d("i :: ", i.toString())
+                    val imgurl = Uri.parse(IP+it.img)
+                    Glide.with(applicationContext).load(imgurl).into(td.imageView_td)
+                    Log.d("i :: ", it.toString())
                 }
 
-                for (i in samebrandProductlist){//같은 브랜드 상품
-                    val td = LayoutInflater.from(applicationContext).inflate(R.layout.standard_product, layout_brand, false);
+                samebrandProductlist.forEach{//같은 브랜드 상품
+                    val td = LayoutInflater.from(applicationContext).inflate(R.layout.standard_product, layout_brand, false)
                     val oc =
                         ProductPageOpenOnClick(
                             activity,
                             applicationContext,
-                            i.index
+                            it.index
                         )
                     td.layout_bp.setOnClickListener(oc)
                     layout_brand.addView(td)
-                    td.td_name.text=i.name.toString()
-                    td.td_pay.text = paytext+" : "+i.pay.toString()+"KRW"
-                    td.td_star.progress=i.star;
+                    td.td_name.text=it.name.toString()
+                    td.td_pay.text = paytext+" : "+it.pay.toString()+"KRW"
+                    td.td_star.progress=it.star
 
 
-                    val imgurl = Uri.parse(IP+i.img)
-                    Glide.with(applicationContext).load(imgurl).into(td.imageView_td);
-                    Log.d("i :: ", i.toString())
+                    val imgurl = Uri.parse(IP+it.img)
+                    Glide.with(applicationContext).load(imgurl).into(td.imageView_td)
+                    Log.d("i :: ", it.toString())
                 }
 
                 //val imgurl = Uri.parse("http://192.168.55.231:8080"+i.img)
-                //Glide.with(applicationContext).load(imgurl).into(td.imageView_td);
+                //Glide.with(applicationContext).load(imgurl).into(td.imageView_td)
 
                 Log.d("body :: ", body.toString())
                 Log.d("list :: ", list.toString())
@@ -204,12 +204,8 @@ class ProductActivity : Activity() {
 
         })
     }
-    fun ProductInitialize_one(pid:String){
-        ProductInitialize(pid, this)
-    }
-
-    fun AnotherProduct(index:String){
-        ProductInitialize(index, this)
+    fun productInitialize_one(pid:String){
+        productInitialize(pid, this)
     }
 
     fun onclickputstar(v: View){
@@ -221,17 +217,14 @@ class ProductActivity : Activity() {
             .setPositiveButton(okbuttontext){
                 dialog, which ->
                 var star = "0"
-                if (view.radioButton1.isChecked){
-                    star = "1"
-                }else if (view.radioButton2.isChecked){
-                    star = "2"
-                }else if (view.radioButton3.isChecked){
-                    star = "3"
-                }else if (view.radioButton4.isChecked){
-                    star = "4"
-                }else if (view.radioButton5.isChecked){
-                    star = "5"
-                }
+                star = when (true){
+                    view.radioButton1.isChecked -> 1
+                    view.radioButton2.isChecked -> 2
+                    view.radioButton3.isChecked -> 3
+                    view.radioButton4.isChecked -> 4
+                    view.radioButton5.isChecked -> 5
+                    else -> 0
+                }.toString()
                 Log.d("url :: ", IP+"/starupdate?id="+ pid+"&num="+star)
                 wb.loadUrl(IP+"/starupdate?id="+pid+"&num="+star)
 

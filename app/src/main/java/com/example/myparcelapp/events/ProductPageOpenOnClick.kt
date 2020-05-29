@@ -5,9 +5,7 @@ import android.content.Context
 import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
-import com.example.myparcelapp.dto.BasketProductVOList
 import com.example.myparcelapp.utils.ActivityTransferManager.startActivityProductPage
-import retrofit2.Callback
 
 open class ProductPageOpenOnClick : View.OnClickListener{
     var pid:String

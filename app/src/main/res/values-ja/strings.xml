@@ -62,4 +62,6 @@
     <string name="buy_TotalPay">総額</string>
     <string name="buy_num">数量</string>
     <string name="PleaseAddressInput">お届け先を入力してください。</string>
+    <string name="OrderingComplete">ご注文が完了しました。</string>
+    <string name="Basket_checkedPDallbuy">チェックした商品すべて注文</string>
 </resources>

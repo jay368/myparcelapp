@@ -62,4 +62,6 @@
     <string name="buy_Shipping_address">Address</string>
     <string name="buy_num">Quantity</string>
     <string name="PleaseAddressInput">Please enter a shipping address.</string>
+    <string name="OrderingComplete">Your order is complete!</string>
+    <string name="Basket_checkedPDallbuy">Order all checked items</string>
 </resources>

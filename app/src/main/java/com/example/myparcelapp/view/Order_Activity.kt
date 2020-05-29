@@ -15,8 +15,8 @@ import androidx.annotation.RequiresApi
 import com.bumptech.glide.Glide
 import com.example.myparcelapp.R
 import com.example.myparcelapp.utils.RetrofitClientInstance
-import com.example.myparcelapp.dto.OrderProductsVO
-import com.example.myparcelapp.dto.OrderVOList
+import com.example.myparcelapp.model.OrderProductsVO
+import com.example.myparcelapp.model.OrderVOList
 import com.example.myparcelapp.service.OrderService
 import com.example.myparcelapp.utils.ActivityTransferManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -34,6 +34,7 @@ class Order_Activity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
 
     var IP=""
     lateinit var wb: WebView
+    var order_opened:Boolean=false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,18 +42,18 @@ class Order_Activity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
         IP = resources.getString(R.string.homepageIP)
 
         var ab = supportActionBar!!
-        ab.setDisplayShowCustomEnabled(true); //커스터마이징 하기 위해 필요
-        ab.setDisplayShowTitleEnabled(true);
-        ab.setDisplayHomeAsUpEnabled(true);
+        ab.setDisplayShowCustomEnabled(true) //커스터마이징 하기 위해 필요
+        ab.setDisplayShowTitleEnabled(true)
+        ab.setDisplayHomeAsUpEnabled(true)
 
         wb = WebView(this)
         wb.loadUrl(IP+"/sessiontest/")
         wb.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view:WebView, url:String) {
                 super.onPageFinished(view, url)
-                OrderInitialize()
+                if(!order_opened) orderInitialize()//다시 한꺼번에 불러올 필요 없이 삭제할 때 DB만 수정되게 하는 방식을 택함
             }
-        };
+        }
     }
 
     override fun onResume() {
@@ -60,11 +61,13 @@ class Order_Activity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
         val bottomNavigationView = navigationView as BottomNavigationView
         bottomNavigationView.menu.findItem(R.id.order).isChecked=true
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
+        order_opened=false
+        wb.loadUrl(IP+"/sessiontest/")
     }
 
-    fun OrderInitialize(){
+    fun orderInitialize(){
 
-        val service = RetrofitClientInstance.retrofitInstance?.create(OrderService::class.java);
+        val service = RetrofitClientInstance.retrofitInstance?.create(OrderService::class.java)
         val call = service?.orderList(resources.getString(R.string.temporarilyUsercode))
         //세션 문제가 해결되기 전까지는 임시로 OA==로 한다.
         Log.d("service :: ", service?.toString())
@@ -86,24 +89,23 @@ class Order_Activity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
                 Log.i("list :: ", list.toString())
 
                 val inflater = LayoutInflater.from(applicationContext)
-                val dateformat = SimpleDateFormat("yyyy-MM-dd");
+                val dateformat = SimpleDateFormat("yyyy-MM-dd")
                 orders.removeAllViews()
 
                 for (i in list!!){
-                    val ol = inflater.inflate(R.layout.layout_order, orders, false);
+                    val ol = inflater.inflate(R.layout.layout_order, orders, false)
                     ol.ol_textView.setText(
                         getText(R.string.bottom_menu_totalpay).toString()+" : "+i.total+" KRW"+"\n"+
                                 getText(R.string.shipping_place).toString()+" : "+i.shipping_place+"\n"+
                                 getText(R.string.ordered_day).toString()+" : "+dateformat.format(i.day))
-                    ol.orderDeletebutton.setOnClickListener(object : View.OnClickListener {//주문내역삭제
-                    override fun onClick(v: View?) {
+                    ol.orderDeletebutton.setOnClickListener {
+                        orders.removeView(ol)
                         Log.d("url :: ", IP+"/orderdelete?o_index="+i.index)
                         wb.loadUrl(IP+"/orderdelete?o_index="+i.index)
                     }
-                    })
                     orders.addView(ol)
                     Log.i("i.prds :: ", i.prds.toString())
-                    OlpAddview(i.prds,ol,inflater)
+                    olpAddview(i.prds,ol,inflater)
                 }
 
 
@@ -115,15 +117,16 @@ class Order_Activity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
             }
 
         })
+        order_opened = true
     }
 
-    fun OlpAddview(list :List<OrderProductsVO>, ol: View, inflater:LayoutInflater){
+    fun olpAddview(list :List<OrderProductsVO>, ol: View, inflater:LayoutInflater){
         for (j in list!!) {
-            val olp = inflater.inflate(R.layout.layout_order_product, layout_olp_list, false);
+            val olp = inflater.inflate(R.layout.layout_order_product, layout_olp_list, false)
             ol.layout_olp_list.addView(olp)
             olp.olp_textView.setText(j.name+"("+j.num+")")
             val imgurl = Uri.parse(IP+j.img)
-            Glide.with(applicationContext).load(imgurl).into(olp.olp_imageView);
+            Glide.with(applicationContext).load(imgurl).into(olp.olp_imageView)
         }
     }
 
@@ -151,7 +154,7 @@ class Order_Activity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
         when(item?.itemId){
             R.id.home -> {
                 finish()
-                return true;
+                return true
             }
             else -> return super.onOptionsItemSelected(item)
         }

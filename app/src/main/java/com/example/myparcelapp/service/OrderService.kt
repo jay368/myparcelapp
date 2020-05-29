@@ -1,6 +1,6 @@
 package com.example.myparcelapp.service
 
-import com.example.myparcelapp.dto.OrderVOList
+import com.example.myparcelapp.model.OrderVOList
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
