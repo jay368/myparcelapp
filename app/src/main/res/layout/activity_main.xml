@@ -28,7 +28,7 @@
                 android:layout_gravity="center|center_vertical"
                 android:layout_margin="16sp"
                 android:background="@drawable/logo"
-                android:contentDescription="@string/myparcellogo"
+                android:contentDescription="@string/myParcelLogo"
                 android:paddingBottom="10dp" />
 
             <SearchView
@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="@string/todaydeal"
+                android:text="@string/todayDeal"
                 android:textSize="20sp" />
 
             <LinearLayout

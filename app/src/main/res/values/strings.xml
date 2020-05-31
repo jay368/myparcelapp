@@ -3,43 +3,43 @@
     <string name="temporarilyUsercode" translatable="false">OA==</string>
 
     <string name="app_name">MY택배</string>
-    <string name="myparcellogo" translatable="false">myparcellogo</string>
-    <string name="searchbutton" translatable="false">searchbutton</string>
+    <string name="myParcelLogo" translatable="false">myparcellogo</string>
+    <string name="searchButton" translatable="false">searchbutton</string>
     <string name="bottom_menu_category">카테고리</string>
     <string name="bottom_menu_search">검색</string>
     <string name="bottom_menu_home">홈</string>
     <string name="bottom_menu_basket">장바구니</string>
     <string name="bottom_menu_order">주문내역</string>
-    <string name="bottom_menu_inbasket">장바구니</string>
-    <string name="bottom_menu_totalpay">합계</string>
+    <string name="bottomMenuInBasket">장바구니</string>
+    <string name="bottomMenuTotalpay">합계</string>
     <string name="bottom_menu_buy">체크한 상품 모두 주문</string>
-    <string name="basket_allcheck">모두 체크</string>
+    <string name="basketAllCheck">모두 체크</string>
     <string name="shipping_place">배송지</string>
     <string name="ordered_day">주문일</string>
     <string name="delete">삭제</string>
-    <string name="todaydeal">오늘의 딜</string>
+    <string name="todayDeal">오늘의 딜</string>
     <string name="pay">가격</string>
-    <string name="searchhint">검색어를 입력하세요</string>
-    <string name="smaetagproduct">같은 태그 상품</string>
-    <string name="smaebrandproduct">같은 브랜드 상품</string>
-    <string name="putstarmessage">몇 점을 주시겠습니까?</string>
-    <string name="putstarokbutton">별점 주기</string>
+    <string name="searchHint">검색어를 입력하세요</string>
+    <string name="sameTagProduct">같은 태그 상품</string>
+    <string name="sameBrandProduct">같은 브랜드 상품</string>
+    <string name="putStarMessage">몇 점을 주시겠습니까?</string>
+    <string name="putStarOkButton">별점 주기</string>
     <string name="orderingButton">바로 구매</string>
-    <string name="putthebasketButton">장바구니에 추가</string>
-    <string name="putthebasketButton_off">장바구니에 저장됨</string>
+    <string name="putTheBasketButton">장바구니에 추가</string>
+    <string name="putTheBasketButton_off">장바구니에 저장됨</string>
     <string name="cancel">취소</string>
     <string name="orderCancel">주문 취소</string>
-    <string name="orderingbutton">주문</string>
+    <string name="orderButton">주문</string>
     <string name="PleaseAddressInput">배송지를 입력해 주십시오.</string>
     <string name="OrderingComplete">주문이 완료되었습니다!</string>
-    <string name="Basket_checkedPDallbuy">체크한 상품 모두 주문</string>
+    <string name="basketCheckedProductAllBuy">체크한 상품 모두 주문</string>
 
-    <string name="buy_Orderer">주문자</string>
+    <string name="buyOrderManName">주문자</string>
     <string name="buy_Shipping_address">배송지</string>
     <string name="buy_TotalPay">총액</string>
     <string name="buy_num">수량</string>
 
-    <string-array name="productkind">
+    <string-array name="productKind">
         <item>모든 부분</item>
         <item>완구 및 게임</item>
         <item>Kindle 스토어</item>

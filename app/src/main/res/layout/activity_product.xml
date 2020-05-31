@@ -84,7 +84,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
-                        android:onClick="onclick_Buy"
+                        android:onClick="onclickBuy"
                         android:text="@string/orderingButton" />
 
                     <Button
@@ -92,7 +92,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
-                        android:text="@string/putthebasketButton" />
+                        android:text="@string/putTheBasketButton" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -114,11 +114,10 @@
                         android:stepSize="1" />
 
                     <Button
-                        android:id="@+id/button"
+                        android:id="@+id/putStarButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:onClick="onclickputstar"
-                        android:text="@string/putstarokbutton" />
+                        android:text="@string/putStarOkButton" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -157,7 +156,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16sp"
-                    android:text="@string/smaetagproduct"
+                    android:text="@string/sameTagProduct"
                     android:textSize="20sp" />
 
                 <LinearLayout
@@ -180,7 +179,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16sp"
-                    android:text="@string/smaebrandproduct"
+                    android:text="@string/sameBrandProduct"
                     android:textSize="20sp" />
 
                 <LinearLayout

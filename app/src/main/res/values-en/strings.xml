@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">MY Parcel</string>
-    <string name="myparcellogo">myparcellogo</string>
-    <string name="searchbutton">searchbutton</string>
+    <string name="myParcelLogo">myparcellogo</string>
+    <string name="searchButton">searchbutton</string>
     <string name="bottom_menu_basket">Basket</string>
     <string name="bottom_menu_category">Category</string>
     <string name="bottom_menu_home">Home</string>
     <string name="bottom_menu_order">Order</string>
     <string name="bottom_menu_search">Search</string>
-    <string-array name="productkind">
+    <string-array name="productKind">
         <item>Any</item>
         <item>Toys and Games</item>
         <item>Kindle Store</item>
@@ -37,31 +37,31 @@
         <item>Movies and TV</item>
         <item>Music, CDs, and records</item>
     </string-array>
-    <string name="bottom_menu_totalpay">Total</string>
+    <string name="bottomMenuTotalpay">Total</string>
     <string name="bottom_menu_buy">Order all checked Product</string>
-    <string name="bottom_menu_inbasket">Basket</string>
-    <string name="basket_allcheck">All Check</string>
+    <string name="bottomMenuInBasket">Basket</string>
+    <string name="basketAllCheck">All Check</string>
     <string name="delete">Delete</string>
     <string name="shipping_place">Shipping Place</string>
     <string name="ordered_day">Order Date</string>
-    <string name="todaydeal">Today\'s Deal</string>
+    <string name="todayDeal">Today\'s Deal</string>
     <string name="pay">Pay</string>
-    <string name="searchhint">Enter a Search Word</string>
-    <string name="smaetagproduct">Same Tag Product</string>
-    <string name="smaebrandproduct">Same Brand Product</string>
-    <string name="putstarmessage">How many stars will you give me?</string>
-    <string name="putstarokbutton">Give a star</string>
+    <string name="searchHint">Enter a Search Word</string>
+    <string name="sameTagProduct">Same Tag Product</string>
+    <string name="sameBrandProduct">Same Brand Product</string>
+    <string name="putStarMessage">How many stars will you give me?</string>
+    <string name="putStarOkButton">Give a star</string>
     <string name="cancel">Cancel</string>
-    <string name="putthebasketButton">Add to Cart</string>
-    <string name="putthebasketButton_off">Stored in Cart</string>
+    <string name="putTheBasketButton">Add to Cart</string>
+    <string name="putTheBasketButton_off">Stored in Cart</string>
     <string name="orderingButton">Direct purchase</string>
     <string name="orderCancel">Order Cancel</string>
-    <string name="orderingbutton">Order</string>
+    <string name="orderButton">Order</string>
     <string name="buy_TotalPay">Total Cost</string>
-    <string name="buy_Orderer">Orderer</string>
+    <string name="buyOrderManName">Orderer</string>
     <string name="buy_Shipping_address">Address</string>
     <string name="buy_num">Quantity</string>
     <string name="PleaseAddressInput">Please enter a shipping address.</string>
     <string name="OrderingComplete">Your order is complete!</string>
-    <string name="Basket_checkedPDallbuy">Order all checked items</string>
+    <string name="basketCheckedProductAllBuy">Order all checked items</string>
 </resources>

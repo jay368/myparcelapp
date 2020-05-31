@@ -63,17 +63,16 @@ object ActivityTransferManager {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun startActivityBuyButtonClick(activity: Activity,
-                                    buyIndexlist:ArrayList<String>,
-                                    buyNumlist:ArrayList<Int>,
-                                    buyTitlelist:ArrayList<String>,
-                                    buyImagelist:ArrayList<String>,
+                                    buyIndexList:ArrayList<String>,
+                                    buyNumList:ArrayList<Int>,
+                                    buyTitleList:ArrayList<String>,
+                                    buyImageList:ArrayList<String>,
                                     BuyingProduct_total:Int) {
-        var intent: Intent? = null
-        intent = Intent(activity, BuyActivity::class.java)
-        intent.putExtra("buyIndexlist", buyIndexlist)
-        intent.putExtra("buyNumlist", buyNumlist)
-        intent.putExtra("buyTitlelist", buyTitlelist)
-        intent.putExtra("buyImagelist", buyImagelist)
+        val intent = Intent(activity, BuyActivity::class.java)
+        intent.putExtra("buyIndexList", buyIndexList)
+        intent.putExtra("buyNumList", buyNumList)
+        intent.putExtra("buyTitleList", buyTitleList)
+        intent.putExtra("buyImageList", buyImageList)
         intent.putExtra("total", BuyingProduct_total)
         activity.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(activity).toBundle())
     }//구매 버튼

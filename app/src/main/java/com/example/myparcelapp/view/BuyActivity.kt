@@ -1,5 +1,6 @@
 package com.example.myparcelapp.view
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
@@ -24,25 +25,25 @@ import java.net.URLEncoder
 
 class BuyActivity : Activity() {
     lateinit var wb:WebView
-    lateinit var buyIndexlist:ArrayList<String>
-    lateinit var buyNumlist:ArrayList<Int>
-    lateinit var buyTitlelist:ArrayList<String>
-    lateinit var buyImagelist:ArrayList<String>
+    private lateinit var buyIndexList:ArrayList<String>
+    private lateinit var buyNumList:ArrayList<Int>
+    private lateinit var buyTitleList:ArrayList<String>
+    private lateinit var buyImageList:ArrayList<String>
     var total:Int = 0
-    var IP=""
+    private var ip=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_buy)
-        val intent = getIntent()
-        IP = resources.getString(R.string.homepageIP)
-        buyIndexlist = intent.getStringArrayListExtra("buyIndexlist")
-        buyNumlist = intent.getIntegerArrayListExtra("buyNumlist")
-        buyTitlelist = intent.getStringArrayListExtra("buyTitlelist")
-        buyImagelist = intent.getStringArrayListExtra("buyImagelist")
+        val intent = intent
+        ip = resources.getString(R.string.homepageIP)
+        buyIndexList = intent.getStringArrayListExtra("buyIndexList")
+        buyNumList = intent.getIntegerArrayListExtra("buyNumList")
+        buyTitleList = intent.getStringArrayListExtra("buyTitleList")
+        buyImageList = intent.getStringArrayListExtra("buyImageList")
         total = intent.getIntExtra("total",0)
         wb = WebView(this)
-        wb.loadUrl(IP+"/sessiontest/")
+        wb.loadUrl("$ip/sessiontest/")
         wb.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView, url:String) {
                 super.onPageFinished(view, url)
@@ -54,18 +55,18 @@ class BuyActivity : Activity() {
     fun buyInitialize(){
         var i = 0
         val intent = getIntent()
-        textview_total.text=intent.getStringExtra("total")
-        for (buyindex in buyIndexlist){//같은 브랜드 상품
+        textview_total.text = intent.getStringExtra("total")
+        for (buyIndex in buyIndexList){//같은 브랜드 상품
 
             val td = LayoutInflater.from(applicationContext).inflate(R.layout.layout_order_product, orderlist, false)
             orderlist.addView(td)
-            td.olp_textView.setText(buyTitlelist.get(i)+"\n"+resources.getString(R.string.buy_num)+" : "+buyNumlist.get(i))
-            val imgurl = Uri.parse(buyImagelist[i])
-            Glide.with(applicationContext).load(imgurl).into(td.olp_imageView)
-            i+=1
+            td.olp_textView.text = "${buyTitleList[i]}\n${resources.getString(R.string.buy_num)} : ${buyNumList[i]}"
+            val imgUrl = Uri.parse(buyImageList[i])
+            Glide.with(applicationContext).load(imgUrl).into(td.olp_imageView)
+            i += 1
         }
 
-        textview_total.text=total.toString()
+        textview_total.text = total.toString()
         val service = RetrofitClientInstance.retrofitInstance?.create(UserService::class.java)
         val call = service?.user(resources.getString(R.string.temporarilyUsercode))
         call?.enqueue(object : Callback<UserVO> {
@@ -76,11 +77,12 @@ class BuyActivity : Activity() {
             override fun onResponse(call: Call<UserVO>?, response: Response<UserVO>?
             ) {
                 val body = response?.body()
-                textview_orderer.text= body?.name
+                textview_orderer.text = body?.name
             }
         })
     }
 
+    @SuppressLint("ShowToast")
     fun onClickOrdering(v:View){
         if(text_address.text.isEmpty()) {//주소에 아무것도 없을 경우
             Toast.makeText(
@@ -94,27 +96,23 @@ class BuyActivity : Activity() {
 
         var p = ""//서버에서 상품1_상품2_상품3으로 나눈다.
         var num = ""//서버에서 갯수1_갯수2_갯수3으로 나눈다.
-        var i=0
-        buyIndexlist.forEach {
-            p+= it
-            i+=1
-            if(i < buyIndexlist.size)
-                p+="_"
+        var i = 0
+        buyIndexList.forEach {
+            p += it
+            i += 1
+            if(i < buyIndexList.size)
+                p += "_"
         }
-        i=0
-        buyNumlist.forEach {
-            num+=it
-            i+=1
-            if(i < buyNumlist.size)
-                num+="_"
+        i = 0
+        buyNumList.forEach {
+            num += it
+            i += 1
+            if(i < buyNumList.size)
+                num += "_"
         }
 
-        val parameter = "p=" + URLEncoder.encode(p, "UTF-8").toString() +
-                        "&num=" + URLEncoder.encode(num, "UTF-8").toString() +
-                        "&ordererIndex=" + resources.getString(R.string.temporarilyUsercode) +
-                        "&area=" + text_address.text.toString() +
-                        "&flag=1"
-        wb.postUrl(IP+"/ordering", parameter.toByteArray())
+        val parameter = "p=${URLEncoder.encode(p, "UTF-8")}&num=${URLEncoder.encode(num, "UTF-8")}&ordererIndex=${resources.getString(R.string.temporarilyUsercode)}&area=${text_address.text}&flag=1"
+        wb.postUrl("$ip/ordering", parameter.toByteArray())
         Toast.makeText(this,resources.getString(R.string.OrderingComplete),Toast.LENGTH_LONG).show()
         finish()
     }//주문버튼

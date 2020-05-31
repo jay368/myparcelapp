@@ -1,5 +1,6 @@
 package com.example.myparcelapp.view
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.net.Uri
 import android.os.Build
@@ -12,7 +13,6 @@ import com.bumptech.glide.Glide
 import com.example.myparcelapp.*
 import com.example.myparcelapp.model.ProductVOList
 import com.example.myparcelapp.events.ProductPageOpenOnClick
-import com.example.myparcelapp.events.SearchButton
 import com.example.myparcelapp.model.ProductVO
 import com.example.myparcelapp.service.TodayDealService
 import com.example.myparcelapp.utils.ActivityTransferManager
@@ -28,17 +28,17 @@ import retrofit2.Response
 class MainActivity : Activity() , BottomNavigationView.OnNavigationItemSelectedListener{
 
 
-    lateinit var search_button_event: SearchButton
-    val IP = getString(R.string.homepageIP)
+    private lateinit var ip:String
 
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        ip = resources.getString(R.string.homepageIP)
 
-        val wb: WebView = WebView(this)
-        wb.loadUrl("$IP/sessiontest/")
+        val wb = WebView(this)
+        wb.loadUrl("$ip/sessiontest/")
         //로그인 해결되기 전까진 이렇게 한다.
     }
 
@@ -47,7 +47,7 @@ class MainActivity : Activity() , BottomNavigationView.OnNavigationItemSelectedL
         val bottomNavigationView : BottomNavigationView = navigationView as BottomNavigationView
         bottomNavigationView.menu.findItem(R.id.home).isChecked = true
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
-        todayDealInitialize(this)
+        todayDealInitialize()
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -58,10 +58,10 @@ class MainActivity : Activity() , BottomNavigationView.OnNavigationItemSelectedL
 
 
 
-    private fun todayDealInitialize(activity: Activity){
+    private fun todayDealInitialize(){
 
         val service = RetrofitClientInstance.retrofitInstance?.create(TodayDealService::class.java)
-        val call = service?.todaydeallist()
+        val call = service?.todayDealList()
         Log.d(MyApplication.LogTag, "service :: ${service?.toString()}")
         Log.d(MyApplication.LogTag, "call :: ${call?.toString()}")
 
@@ -77,6 +77,7 @@ class MainActivity : Activity() , BottomNavigationView.OnNavigationItemSelectedL
                 response
                     ?.takeIf { it.isSuccessful }
                     ?.let {
+                        todaydeallist.removeAllViews()
 
                         it.body()?.prdlist?.forEach { pd ->
                             setTodayDealListView(pd)
@@ -89,20 +90,19 @@ class MainActivity : Activity() , BottomNavigationView.OnNavigationItemSelectedL
     }
 
 
+    @SuppressLint("SetTextI18n")
     private fun setTodayDealListView(productInfo: ProductVO) {
-
-        todaydeallist.removeAllViews()
 
         val td = LayoutInflater.from(this).inflate(R.layout.standard_product, todaydeallist, false)
         val oc = ProductPageOpenOnClick(this, productInfo.index)
 
         todaydeallist.addView(td)
         td.td_name.text = productInfo.name
-        td.td_pay.text = "${getString(R.string.pay)} : ${productInfo.pay}KRW"
+        td.td_pay.text = "${getString(R.string.pay)} : ${productInfo.pay} KRW"
         td.td_star.progress = productInfo.star
         td.layout_bp.setOnClickListener(oc)
 
-        val imgUrl = Uri.parse("$IP${productInfo.img}")
+        val imgUrl = Uri.parse("$ip${productInfo.img}")
         Glide.with(this).load(imgUrl).into(td.imageView_td)
         Log.d(MyApplication.LogTag, "productInfo :: $productInfo")
 

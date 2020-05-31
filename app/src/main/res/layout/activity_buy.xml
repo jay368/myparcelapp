@@ -42,7 +42,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="8dp"
-                        android:text="@string/buy_Orderer"
+                        android:text="@string/buyOrderManName"
                         android:textAlignment="textEnd"
                         android:textSize="18sp" />
 
@@ -107,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="32dp"
                 android:onClick="onClickOrdering"
-                android:text="@string/orderingbutton" />
+                android:text="@string/orderButton" />
 
         </LinearLayout>
     </ScrollView>

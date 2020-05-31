@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">MY 宅配</string>
-    <string name="myparcellogo">myparcellogo</string>
-    <string name="searchbutton">searchbutton</string>
+    <string name="myParcelLogo">myparcellogo</string>
+    <string name="searchButton">searchbutton</string>
     <string name="bottom_menu_basket">買い物かご</string>
     <string name="bottom_menu_category">カテゴリー</string>
     <string name="bottom_menu_home">ホーム</string>
     <string name="bottom_menu_order">注文内訳</string>
     <string name="bottom_menu_search">検索</string>
-    <string-array name="productkind">
+    <string-array name="productKind">
         <item>全部分</item>
         <item>玩具およびゲーム</item>
         <item>Kindleストア</item>
@@ -37,31 +37,31 @@
         <item>映画及びテレビ</item>
         <item>音楽, CD及びレコード盤</item>
     </string-array>
-    <string name="bottom_menu_totalpay">合計</string>
+    <string name="bottomMenuTotalpay">合計</string>
     <string name="bottom_menu_buy">チェックした商品すべて注文</string>
-    <string name="bottom_menu_inbasket">買い物かご</string>
-    <string name="basket_allcheck">すべてチェック</string>
+    <string name="bottomMenuInBasket">買い物かご</string>
+    <string name="basketAllCheck">すべてチェック</string>
     <string name="delete">削除</string>
     <string name="shipping_place">お届け先</string>
     <string name="ordered_day">注文日</string>
-    <string name="todaydeal">今日の取り引き。</string>
+    <string name="todayDeal">今日の取り引き。</string>
     <string name="pay">価格</string>
-    <string name="searchhint">検索キーワードを入力してください。</string>
-    <string name="smaetagproduct">同じタグ商品</string>
-    <string name="smaebrandproduct">同じブランドの商品</string>
-    <string name="putstarmessage">星をいくつくれますか?</string>
-    <string name="putstarokbutton">星を与える</string>
+    <string name="searchHint">検索キーワードを入力してください。</string>
+    <string name="sameTagProduct">同じタグ商品</string>
+    <string name="sameBrandProduct">同じブランドの商品</string>
+    <string name="putStarMessage">星をいくつくれますか?</string>
+    <string name="putStarOkButton">星を与える</string>
     <string name="cancel">キャンセル</string>
-    <string name="putthebasketButton">買い物かごに追加</string>
-    <string name="putthebasketButton_off">買物かご詰め</string>
+    <string name="putTheBasketButton">買い物かごに追加</string>
+    <string name="putTheBasketButton_off">買物かご詰め</string>
     <string name="orderingButton">即買い</string>
     <string name="orderCancel">注文取り消し</string>
-    <string name="orderingbutton">注文</string>
+    <string name="orderButton">注文</string>
     <string name="buy_Shipping_address">お届け先</string>
-    <string name="buy_Orderer">注文者</string>
+    <string name="buyOrderManName">注文者</string>
     <string name="buy_TotalPay">総額</string>
     <string name="buy_num">数量</string>
     <string name="PleaseAddressInput">お届け先を入力してください。</string>
     <string name="OrderingComplete">ご注文が完了しました。</string>
-    <string name="Basket_checkedPDallbuy">チェックした商品すべて注文</string>
+    <string name="basketCheckedProductAllBuy">チェックした商品すべて注文</string>
 </resources>

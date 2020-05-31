@@ -18,32 +18,32 @@ import kotlinx.android.synthetic.main.activity_searchresult.*
 
 class SearchActivity : Activity() , BottomNavigationView.OnNavigationItemSelectedListener {
 
-    lateinit var search_button_event: SearchButton
-    var IP=""
+    lateinit var searchButtonEvent: SearchButton
+    private var ip = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-        IP = resources.getString(R.string.homepageIP)
+        ip = resources.getString(R.string.homepageIP)
 
-        val wb: WebView = WebView(this)
-        wb.loadUrl(IP+"/sessiontest/")
+        val wb = WebView(this)
+        wb.loadUrl("$ip/sessiontest/")
         //로그인 해결되기 전까진 이렇게 한다.
-        search_button_event = SearchButton(
+        searchButtonEvent = SearchButton(
             this,
             applicationContext,
             spinner_searchfilter.selectedItemId.toString(),
-            resources.getStringArray(R.array.productkind)[0].toString()
+            resources.getStringArray(R.array.productKind)[0].toString()
         )
         searchview1.isSubmitButtonEnabled = true
-        searchview1.setOnQueryTextListener(search_button_event)
+        searchview1.setOnQueryTextListener(searchButtonEvent)
         searchview1.isSubmitButtonEnabled = true
-        searchview1.setOnQueryTextListener(search_button_event)
+        searchview1.setOnQueryTextListener(searchButtonEvent)
 
-        spinner_searchfilter.onItemSelectedListener= object : AdapterView.OnItemSelectedListener {
+        spinner_searchfilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
-                search_button_event.setOptions_flt(position.toString())
+                searchButtonEvent.setOptionsFlt(position.toString())
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
@@ -53,12 +53,12 @@ class SearchActivity : Activity() , BottomNavigationView.OnNavigationItemSelecte
     override fun onResume() {
         super.onResume()
         val bottomNavigationView : BottomNavigationView = navigationView as BottomNavigationView
-        bottomNavigationView.menu.findItem(R.id.search).isChecked=true
+        bottomNavigationView.menu.findItem(R.id.search).isChecked = true
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
     }
 
 
-    fun startActivitySearchresultActivity(query:String, flt:String){
+    fun startActivitySearchResultActivity(query:String, flt:String){
         val intent = Intent(applicationContext, SearchresultActivity::class.java)
         intent.putExtra("sch",query)//검색단어
         intent.putExtra("flt",flt)//필터
@@ -67,7 +67,7 @@ class SearchActivity : Activity() , BottomNavigationView.OnNavigationItemSelecte
         intent.putExtra("br","")//브랜드
         intent.putExtra("agn","0")//정렬
         val bottomNavigationView : BottomNavigationView = navigationView as BottomNavigationView
-        bottomNavigationView.selectedItemId= R.id.home
+        bottomNavigationView.selectedItemId = R.id.home
         startActivity(intent)
     }
 

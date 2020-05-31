@@ -7,6 +7,6 @@ import retrofit2.http.Query
 
 interface ProductPageService {
     @GET("/productpage_json")
-    fun productlist(@Query("pid") pid:String,
+    fun productList(@Query("pid") pid:String,
                     @Query("u") user:String) : Call<ProductVOList>
 }

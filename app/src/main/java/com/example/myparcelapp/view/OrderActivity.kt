@@ -1,5 +1,6 @@
 package com.example.myparcelapp.view
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -36,27 +37,23 @@ import java.util.*
 class OrderActivity : AppCompatActivity() , BottomNavigationView.OnNavigationItemSelectedListener{
 
 
-    val IP = getString(R.string.homepageIP)
+    private lateinit var ip:String
 
     lateinit var wb: WebView
-    var order_opened: Boolean = false
+    var orderOpened: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_)
 
-        val ab = supportActionBar?.apply {
-            this.setDisplayShowCustomEnabled(true) //커스터마이징 하기 위해 필요
-            this.setDisplayShowTitleEnabled(true)
-            this.setDisplayHomeAsUpEnabled(true)
-        }
+        ip = resources.getString(R.string.homepageIP)
 
         wb = WebView(this)
-        wb.loadUrl("$IP/sessiontest/")
+        wb.loadUrl("$ip/sessiontest/")
         wb.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view:WebView, url:String) {
                 super.onPageFinished(view, url)
-                if(!order_opened) orderInitialize()//다시 한꺼번에 불러올 필요 없이 삭제할 때 DB만 수정되게 하는 방식을 택함
+                if(!orderOpened) orderInitialize()//다시 한꺼번에 불러올 필요 없이 삭제할 때 DB만 수정되게 하는 방식을 택함
             }
         }
     }
@@ -66,8 +63,8 @@ class OrderActivity : AppCompatActivity() , BottomNavigationView.OnNavigationIte
         val bottomNavigationView = navigationView as BottomNavigationView
         bottomNavigationView.menu.findItem(R.id.order).isChecked = true
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
-        order_opened=false
-        wb.loadUrl("$IP/sessiontest/")
+        orderOpened = false
+        wb.loadUrl("$ip/sessiontest/")
     }
 
     fun orderInitialize(){
@@ -91,7 +88,7 @@ class OrderActivity : AppCompatActivity() , BottomNavigationView.OnNavigationIte
                 response
                     ?.takeIf { it.isSuccessful }
                     ?.let {
-
+                        orders.removeAllViews()
                         it.body()?.ol?.forEach { od ->
                             setOrderListView(od)
                         }
@@ -100,14 +97,8 @@ class OrderActivity : AppCompatActivity() , BottomNavigationView.OnNavigationIte
 
                 val body = response?.body()
                 val list = body?.ol
-                var size = list?.size
+                val size = list?.size
                 Log.i("list :: ", list.toString())
-
-                for (i in list!!){
-
-                }
-
-
                 Log.d("body :: ", body.toString())
                 Log.d("list :: ", list.toString())
                 Log.d("size :: ", size.toString())
@@ -116,7 +107,7 @@ class OrderActivity : AppCompatActivity() , BottomNavigationView.OnNavigationIte
             }
 
         })
-        order_opened = true
+        orderOpened = true
     }
 
     private fun setOrderListView(order: OrderVO) {
@@ -125,17 +116,15 @@ class OrderActivity : AppCompatActivity() , BottomNavigationView.OnNavigationIte
         val ol = inflater.inflate(R.layout.layout_order, orders, false)
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.KOREA)
 
-        orders.removeAllViews()
-
-        val olTxt = "${getString(R.string.bottom_menu_totalpay)} : ${order.total}KRW\n" +
+        val olTxt = "${getString(R.string.bottomMenuTotalpay)} : ${order.total}KRW\n" +
                 "${getString(R.string.shipping_place)} : ${order.shipping_place}\n" +
                 "${getString(R.string.ordered_day)} : ${dateFormat.format(order.day)}"
         ol.ol_textView.text = olTxt
 
         ol.orderDeletebutton.setOnClickListener {
             orders.removeView(ol)
-            Log.d(MyApplication.LogTag, "url :: $IP/orderdelete?o_index=${order.index}")
-            wb.loadUrl("$IP/orderdelete?o_index=${order.index}")
+            Log.d(MyApplication.LogTag, "url :: $ip/orderdelete?o_index=${order.index}")
+            wb.loadUrl("$ip/orderdelete?o_index=${order.index}")
         }
 
         orders.addView(ol)
@@ -144,6 +133,7 @@ class OrderActivity : AppCompatActivity() , BottomNavigationView.OnNavigationIte
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun olpAddView(list :List<OrderProductsVO>, ol: View, inflater:LayoutInflater){
 
         list.forEach {
@@ -153,7 +143,7 @@ class OrderActivity : AppCompatActivity() , BottomNavigationView.OnNavigationIte
             olp.olp_textView.text = "${it.name}(${it.num})"
 
             Glide.with(this)
-                .load(Uri.parse("$IP${it.img}"))
+                .load(Uri.parse("$ip${it.img}"))
                 .into(olp.olp_imageView)
         }
 
@@ -181,8 +171,8 @@ class OrderActivity : AppCompatActivity() , BottomNavigationView.OnNavigationIte
 
 
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when(item?.itemId){
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
             R.id.home -> {
                 finish()
                 true

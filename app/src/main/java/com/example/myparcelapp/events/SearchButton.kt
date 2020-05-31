@@ -3,45 +3,39 @@ package com.example.myparcelapp.events
 import android.app.Activity
 import android.content.Context
 import android.os.Build
+import android.view.View
 import android.widget.SearchView
 import androidx.annotation.RequiresApi
+import com.example.myparcelapp.view.CategoryActivity
 import com.example.myparcelapp.view.SearchActivity
 import com.example.myparcelapp.view.SearchresultActivity
 
-class SearchButton : SearchView.OnQueryTextListener {
-    var any:String
-    var activity:Activity
-    var context: Context
-    var flt:String
+class SearchButton(var activity: Activity, var context: Context, var flt: String, var any: String) : SearchView.OnQueryTextListener {
     var st:String
     var tag:String
     var br:String
     var agn:String
 
-    constructor(activity:Activity, context:Context, flt:String, any:String){
-        this.activity=activity
-        this.context=context
-        this.flt=flt
+    init {
         this.st="0"
         this.tag=""
         this.br=""
         this.agn="0"
-        this.any=any
     }
 
-    fun setOptions_flt(flt:String){
+    fun setOptionsFlt(flt:String){
         this.flt=flt
     }
-    fun setOptions_st(st:String){
+    fun setOptionsStar(st:String){
         this.st=st
     }
-    fun setOptions_tag(tag:String){
+    fun setOptionsTag(tag:String){
         this.tag=tag
     }
-    fun setOptions_br(br:String){
+    fun setOptionsBrand(br:String){
         this.br=br
     }
-    fun setOptions_agn(agn:String){
+    fun setOptionsAlign(agn:String){
         this.agn=agn
     }
 
@@ -49,18 +43,18 @@ class SearchButton : SearchView.OnQueryTextListener {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onQueryTextSubmit(query: String): Boolean {
        if(activity.javaClass == SearchresultActivity::class.java){
-           var tag_temp =tag
-           var br_temp =br
-           if (tag_temp == any){
-               tag_temp = ""
+           var tagTemp =tag
+           var brTemp =br
+           if (tagTemp == any){
+               tagTemp = ""
            }
-           if (br_temp == any){
-               br_temp = ""
+           if (brTemp == any){
+               brTemp = ""
            }
-           (activity as SearchresultActivity).searchResultListInitialize(query,flt,st,tag_temp,br_temp,agn,activity)
+           (activity as SearchresultActivity).searchResultListInitialize(query,flt,st,tagTemp,brTemp,agn,activity)
        }
         else{
-           (activity as SearchActivity).startActivitySearchresultActivity(query, flt)
+           (activity as SearchActivity).startActivitySearchResultActivity(query, flt)
        }
        return true
 
@@ -69,4 +63,5 @@ class SearchButton : SearchView.OnQueryTextListener {
     override fun onQueryTextChange(newText: String): Boolean {
         return true
     }
+
 }
