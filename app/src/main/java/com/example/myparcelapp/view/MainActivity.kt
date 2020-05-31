@@ -13,6 +13,7 @@ import com.example.myparcelapp.*
 import com.example.myparcelapp.model.ProductVOList
 import com.example.myparcelapp.events.ProductPageOpenOnClick
 import com.example.myparcelapp.events.SearchButton
+import com.example.myparcelapp.model.ProductVO
 import com.example.myparcelapp.service.TodayDealService
 import com.example.myparcelapp.utils.ActivityTransferManager
 import com.example.myparcelapp.utils.RetrofitClientInstance
@@ -26,24 +27,25 @@ import retrofit2.Response
 
 class MainActivity : Activity() , BottomNavigationView.OnNavigationItemSelectedListener{
 
+
     lateinit var search_button_event: SearchButton
-    var IP=""
+    val IP = getString(R.string.homepageIP)
+
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        IP = resources.getString(R.string.homepageIP)
 
         val wb: WebView = WebView(this)
-        wb.loadUrl(IP+"/sessiontest/")
+        wb.loadUrl("$IP/sessiontest/")
         //로그인 해결되기 전까진 이렇게 한다.
     }
 
     override fun onResume() {
         super.onResume()
         val bottomNavigationView : BottomNavigationView = navigationView as BottomNavigationView
-        bottomNavigationView.menu.findItem(R.id.home).isChecked=true
+        bottomNavigationView.menu.findItem(R.id.home).isChecked = true
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
         todayDealInitialize(this)
     }
@@ -56,55 +58,54 @@ class MainActivity : Activity() , BottomNavigationView.OnNavigationItemSelectedL
 
 
 
-    fun todayDealInitialize(activity:Activity){
+    private fun todayDealInitialize(activity: Activity){
 
         val service = RetrofitClientInstance.retrofitInstance?.create(TodayDealService::class.java)
         val call = service?.todaydeallist()
-        Log.d("service :: ", service?.toString())
-        Log.d("call :: ", call?.toString())
+        Log.d(MyApplication.LogTag, "service :: ${service?.toString()}")
+        Log.d(MyApplication.LogTag, "call :: ${call?.toString()}")
 
         call?.enqueue(object : Callback<ProductVOList> {
             override fun onFailure(call: Call<ProductVOList>, t: Throwable) {
                 Log.d("Error :: ", t.toString())
             }
 
-            override fun onResponse(
-                call: Call<ProductVOList>?,
-                response: Response<ProductVOList>?
-            ) {
-                todaydeallist.removeAllViews()
-                Log.d("Response :: ", response?.toString())
-                val body = response?.body()
-                val list = body?.prdlist
-                var size = list?.size
-                Log.i("list :: ", list.toString())
-                val paytext = getString(R.string.pay)
+            override fun onResponse(call: Call<ProductVOList>?, response: Response<ProductVOList>?) {
 
-                //
-                list!!.forEach{
-                    val td = LayoutInflater.from(applicationContext).inflate(R.layout.standard_product, todaydeallist, false)
-                    val oc: ProductPageOpenOnClick =
-                        ProductPageOpenOnClick(activity,applicationContext,it.index)
-                    todaydeallist.addView(td)
-                    td.td_name.setText(it.name.toString())
-                    td.td_pay.setText(paytext+" : "+it.pay.toString()+"KRW")
-                    td.td_star.progress=it.star
-                    td.layout_bp.setOnClickListener(oc)
+                Log.d(MyApplication.LogTag, "Response :: ${response?.toString()}")
 
-                    val imgurl = Uri.parse(IP+it.img)
-                    Glide.with(applicationContext).load(imgurl).into(td.imageView_td)
-                    Log.d("i :: ", it.toString())
-                }
+                response
+                    ?.takeIf { it.isSuccessful }
+                    ?.let {
 
+                        it.body()?.prdlist?.forEach { pd ->
+                            setTodayDealListView(pd)
+                        }
 
-                Log.d("body :: ", body.toString())
-                Log.d("list :: ", list.toString())
-                Log.d("size :: ", size.toString())
-
-
+                    }
             }
 
         })
+    }
+
+
+    private fun setTodayDealListView(productInfo: ProductVO) {
+
+        todaydeallist.removeAllViews()
+
+        val td = LayoutInflater.from(this).inflate(R.layout.standard_product, todaydeallist, false)
+        val oc = ProductPageOpenOnClick(this, productInfo.index)
+
+        todaydeallist.addView(td)
+        td.td_name.text = productInfo.name
+        td.td_pay.text = "${getString(R.string.pay)} : ${productInfo.pay}KRW"
+        td.td_star.progress = productInfo.star
+        td.layout_bp.setOnClickListener(oc)
+
+        val imgUrl = Uri.parse("$IP${productInfo.img}")
+        Glide.with(this).load(imgUrl).into(td.imageView_td)
+        Log.d(MyApplication.LogTag, "productInfo :: $productInfo")
+
     }
 
 

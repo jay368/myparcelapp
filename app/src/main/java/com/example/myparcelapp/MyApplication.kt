@@ -9,13 +9,14 @@ class MyApplication: Application() {
 
     companion object {
 
+        const val LogTag = "TEST"
+
 
         var currentActivity: WeakReference<Activity>? = null
         fun getAppActivity(): Activity? = currentActivity?.get()
         fun setAppActivity(activity: Activity?) {
             currentActivity = if(activity != null) WeakReference(activity) else null
         }
-
 
         lateinit var mContext: WeakReference<Context>
         lateinit var noneNullContext: Context

@@ -7,16 +7,7 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import com.example.myparcelapp.utils.ActivityTransferManager.startActivityProductPage
 
-open class ProductPageOpenOnClick : View.OnClickListener{
-    var pid:String
-    var activity: Activity
-    var context:Context
-    constructor(activity: Activity, context:Context, pid:String){
-        this.pid=pid
-        this.activity=activity
-        this.context = context
-    }
-
+open class ProductPageOpenOnClick(var activity: Activity, var pid: String) : View.OnClickListener{
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onClick(v: View) {

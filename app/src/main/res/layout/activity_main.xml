@@ -34,7 +34,8 @@
             <SearchView
                 android:id="@+id/searchview1"
                 android:layout_width="match_parent"
-                android:layout_height="59dp"></SearchView>
+                android:layout_height="59dp"
+                />
 
             <TextView
                 android:id="@+id/textView2"
@@ -48,9 +49,9 @@
                 android:id="@+id/todaydeallist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                />
 
-            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

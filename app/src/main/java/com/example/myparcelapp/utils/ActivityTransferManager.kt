@@ -49,7 +49,7 @@ object ActivityTransferManager {
                 return true
             }
             R.id.basket -> intent = Intent(activity, BasketActivity::class.java)
-            R.id.order -> intent = Intent(activity, Order_Activity::class.java)
+            R.id.order -> intent = Intent(activity, OrderActivity::class.java)
         }
 
         intent?.let {
