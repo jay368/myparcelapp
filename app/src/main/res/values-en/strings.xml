@@ -64,4 +64,11 @@
     <string name="PleaseAddressInput">Please enter a shipping address.</string>
     <string name="OrderingComplete">Your order is complete!</string>
     <string name="basketCheckedProductAllBuy">Order all checked items</string>
+    <string name="Login_id_text">Email (or phone for mobile accounts)</string>
+    <string name="Login_pwd_text">Password</string>
+    <string name="LoginButton_text">Login</string>
+    <string name="MemberAddButton_text">Create My Account</string>
+    <string name="Login_pwd_LeastChar">(minimum 6 characters)</string>
+    <string name="Login_pwd_again">Re-enter Password</string>
+    <string name="logout">Logout</string>
 </resources>

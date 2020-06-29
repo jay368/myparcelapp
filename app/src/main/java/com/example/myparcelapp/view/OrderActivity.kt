@@ -22,6 +22,7 @@ import com.example.myparcelapp.model.OrderVO
 import com.example.myparcelapp.model.OrderVOList
 import com.example.myparcelapp.service.OrderService
 import com.example.myparcelapp.utils.ActivityTransferManager
+import com.example.myparcelapp.utils.Uuid
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_order_.*
 import kotlinx.android.synthetic.main.activity_order_.navigationView
@@ -49,7 +50,7 @@ class OrderActivity : AppCompatActivity() , BottomNavigationView.OnNavigationIte
         ip = resources.getString(R.string.homepageIP)
 
         wb = WebView(this)
-        wb.loadUrl("$ip/sessiontest/")
+        wb.loadUrl("$ip/sessiontest/?usercode=${Uuid.userIndex}")
         wb.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view:WebView, url:String) {
                 super.onPageFinished(view, url)
@@ -64,13 +65,13 @@ class OrderActivity : AppCompatActivity() , BottomNavigationView.OnNavigationIte
         bottomNavigationView.menu.findItem(R.id.order).isChecked = true
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
         orderOpened = false
-        wb.loadUrl("$ip/sessiontest/")
+        wb.loadUrl("$ip/sessiontest/?usercode=${Uuid.userIndex}")
     }
 
     fun orderInitialize(){
 
         val service = RetrofitClientInstance.retrofitInstance?.create(OrderService::class.java)
-        val call = service?.orderList(resources.getString(R.string.temporarilyUsercode))
+        val call = service?.orderList(Uuid.userIndex)
 
         //세션 문제가 해결되기 전까지는 임시로 OA==로 한다.
         Log.d(MyApplication.LogTag, "service :: ${service?.toString()}")

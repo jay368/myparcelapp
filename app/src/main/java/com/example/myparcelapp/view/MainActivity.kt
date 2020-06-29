@@ -17,7 +17,9 @@ import com.example.myparcelapp.model.ProductVO
 import com.example.myparcelapp.service.TodayDealService
 import com.example.myparcelapp.utils.ActivityTransferManager
 import com.example.myparcelapp.utils.RetrofitClientInstance
+import com.example.myparcelapp.utils.Uuid
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.standard_product.view.*
 import retrofit2.Call
@@ -38,7 +40,7 @@ class MainActivity : Activity() , BottomNavigationView.OnNavigationItemSelectedL
         ip = resources.getString(R.string.homepageIP)
 
         val wb = WebView(this)
-        wb.loadUrl("$ip/sessiontest/")
+        wb.loadUrl("$ip/sessiontest/?usercode=${Uuid.userIndex}")
         //로그인 해결되기 전까진 이렇게 한다.
     }
 
@@ -47,6 +49,7 @@ class MainActivity : Activity() , BottomNavigationView.OnNavigationItemSelectedL
         val bottomNavigationView : BottomNavigationView = navigationView as BottomNavigationView
         bottomNavigationView.menu.findItem(R.id.home).isChecked = true
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
+
         todayDealInitialize()
     }
 

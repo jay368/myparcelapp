@@ -84,4 +84,11 @@ object ActivityTransferManager {
         activity.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(activity).toBundle())
     }//상품 페이지로 이동
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    fun startActivityMain(activity: Activity){
+        val intent = Intent(activity, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        activity.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(activity).toBundle())
+    }
+
 }

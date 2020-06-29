@@ -7,5 +7,6 @@ import retrofit2.http.Query
 
 interface UserService {
     @GET("/user_json")
-    fun user(@Query("ui") user:String) : Call<UserVO>
+    fun user(@Query("ui") user:String,
+             @Query("flag") flag:String) : Call<UserVO>
 }

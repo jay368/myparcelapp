@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -15,13 +16,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".view.BuyActivity"></activity>
-        <activity android:name=".view.MainActivity">
+        <activity android:name=".view.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".view.BuyActivity" />
+        <activity android:name=".view.MainActivity">
+
         </activity>
         <activity android:name=".view.CategoryActivity" />
         <activity android:name=".view.SearchActivity" />
@@ -29,8 +33,7 @@
         <activity
             android:name=".view.OrderActivity"
             android:parentActivityName=".view.MainActivity" />
-        <activity
-            android:name=".view.ProductActivity"/>
+        <activity android:name=".view.ProductActivity" />
         <activity android:name=".view.SearchresultActivity" />
         <activity
             android:name=".view.BasketActivity"

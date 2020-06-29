@@ -10,5 +10,5 @@ data class ProductVOList
 
     @SerializedName("prdlist_sametag") var prdlist_sametag: List<ProductVO>,
     @SerializedName("prdlist_samebrand") var prdlist_samebrand: List<ProductVO>
-    )
+)
 {}

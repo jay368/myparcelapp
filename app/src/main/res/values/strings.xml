@@ -1,6 +1,5 @@
 <resources>
     <string name="homepageIP" translatable="false">http://192.168.55.231:8080</string>
-    <string name="temporarilyUsercode" translatable="false">OA==</string>
 
     <string name="app_name">MY택배</string>
     <string name="myParcelLogo" translatable="false">myparcellogo</string>
@@ -34,10 +33,19 @@
     <string name="OrderingComplete">주문이 완료되었습니다!</string>
     <string name="basketCheckedProductAllBuy">체크한 상품 모두 주문</string>
 
+    <string name="Login_id_text">이메일(모바일 계정의 경우 전화)</string>
+    <string name="Login_pwd_text">비밀번호</string>
+    <string name="LoginButton_text">로그인</string>
+    <string name="MemberAddButton_text">계정 생성</string>
+    <string name="Login_pwd_again">비밀번호 다시 입력</string>
+    <string name="Login_pwd_LeastChar">(최소 6자)</string>
+
     <string name="buyOrderManName">주문자</string>
     <string name="buy_Shipping_address">배송지</string>
     <string name="buy_TotalPay">총액</string>
     <string name="buy_num">수량</string>
+
+    <string name="logout">로그아웃</string>
 
     <string-array name="productKind">
         <item>모든 부분</item>

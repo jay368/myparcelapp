@@ -25,6 +25,7 @@ import com.example.myparcelapp.model.ProductVO
 import com.example.myparcelapp.model.ProductVOList
 import com.example.myparcelapp.service.ProductPageService
 import com.example.myparcelapp.utils.ActivityTransferManager.startActivityBuyButtonClick
+import com.example.myparcelapp.utils.Uuid
 import kotlinx.android.synthetic.main.activity_product.*
 import kotlinx.android.synthetic.main.alert_putstar.view.*
 import kotlinx.android.synthetic.main.standard_product.view.*
@@ -52,7 +53,7 @@ class ProductActivity : Activity() {
         pid = intent.getStringExtra("pid")
         productInitialize(pid, this)
         wb = WebView(this)
-        wb.loadUrl("$ip/sessiontest/")
+        wb.loadUrl("$ip/sessiontest/?usercode=${Uuid.userIndex}")
         putStarButton.setOnClickListener(PutStarButton(
             this,
             this,
@@ -76,7 +77,7 @@ class ProductActivity : Activity() {
     private fun productInitialize(pid:String, activity: Activity){
 
         val service = RetrofitClientInstance.retrofitInstance?.create(ProductPageService::class.java)
-        val call = service?.productList(pid,resources.getString(R.string.temporarilyUsercode))
+        val call = service?.productList(pid, Uuid.userIndex)
         Log.d("service :: ", service?.toString())
         Log.d("call :: ", call?.toString())
 

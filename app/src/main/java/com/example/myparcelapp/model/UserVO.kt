@@ -4,5 +4,6 @@ data class UserVO (
     var index: String,
     var email: String,
     var money: String,
-    var name: String
+    var name: String,
+    var pwd:String
 )

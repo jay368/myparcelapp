@@ -64,4 +64,11 @@
     <string name="PleaseAddressInput">お届け先を入力してください。</string>
     <string name="OrderingComplete">ご注文が完了しました。</string>
     <string name="basketCheckedProductAllBuy">チェックした商品すべて注文</string>
+    <string name="Login_id_text">Eメール(モバイルアカウントの場合電話)</string>
+    <string name="Login_pwd_text">パスワード</string>
+    <string name="LoginButton_text">ログイン</string>
+    <string name="MemberAddButton_text">耐アカウント生成</string>
+    <string name="Login_pwd_again">暗証番号を再入力</string>
+    <string name="Login_pwd_LeastChar">(少なくとも6者)</string>
+    <string name="logout">ログアウト</string>
 </resources>

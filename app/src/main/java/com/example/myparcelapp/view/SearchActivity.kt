@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi
 import com.example.myparcelapp.R
 import com.example.myparcelapp.events.SearchButton
 import com.example.myparcelapp.utils.ActivityTransferManager
+import com.example.myparcelapp.utils.Uuid
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_searchresult.*
@@ -28,7 +29,7 @@ class SearchActivity : Activity() , BottomNavigationView.OnNavigationItemSelecte
         ip = resources.getString(R.string.homepageIP)
 
         val wb = WebView(this)
-        wb.loadUrl("$ip/sessiontest/")
+        wb.loadUrl("$ip/sessiontest/?usercode=${Uuid.userIndex}")
         //로그인 해결되기 전까진 이렇게 한다.
         searchButtonEvent = SearchButton(
             this,

@@ -64,4 +64,11 @@
     <string name="PleaseAddressInput">배송지를 입력해 주십시오.</string>
     <string name="OrderingComplete">주문이 완료되었습니다!</string>
     <string name="basketCheckedProductAllBuy">체크한 상품 모두 주문</string>
+    <string name="Login_id_text">이메일(모바일 계정의 경우 전화)</string>
+    <string name="Login_pwd_text">비밀번호</string>
+    <string name="LoginButton_text">로그인</string>
+    <string name="MemberAddButton_text">계정 생성</string>
+    <string name="Login_pwd_again">비밀번호 다시 입력</string>
+    <string name="Login_pwd_LeastChar">(최소 6자)</string>
+    <string name="logout">로그아웃</string>
 </resources>

@@ -21,6 +21,7 @@ import com.example.myparcelapp.model.BasketProductVOList
 import com.example.myparcelapp.events.ProductPageOpenOnClick
 import com.example.myparcelapp.service.BasketProductService
 import com.example.myparcelapp.utils.ActivityTransferManager
+import com.example.myparcelapp.utils.Uuid
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_basket.*
 import kotlinx.android.synthetic.main.activity_basket.navigationView
@@ -57,7 +58,7 @@ class BasketActivity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
         //밑의 바로구매 버튼이 있는 아래 네비게이션 매뉴
 
         wb = WebView(this)
-        wb.loadUrl("$ip/sessiontest/")
+        wb.loadUrl("$ip/sessiontest/?usercode=${Uuid.userIndex}")
         wb.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view:WebView, url:String) {
                 super.onPageFinished(view, url)
@@ -79,7 +80,7 @@ class BasketActivity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
             it.isEnabled = false
         }
         basketProductOpened = false
-        wb.loadUrl("$ip/sessiontest/")
+        wb.loadUrl("$ip/sessiontest/?usercode=${Uuid.userIndex}")
     }
 
     fun onclickAllCheck(v:View) {//한번에 모두체크 버튼
@@ -99,7 +100,7 @@ class BasketActivity : AppCompatActivity() , BottomNavigationView.OnNavigationIt
     private fun basketListInitialize(activity: Activity){
 
         val service = RetrofitClientInstance.retrofitInstance?.create(BasketProductService::class.java)
-        val call = service?.basketProductList(resources.getString(R.string.temporarilyUsercode))
+        val call = service?.basketProductList(Uuid.userIndex)
         //세션 문제가 해결되기 전까지는 임시로 OA==로 한다.
         Log.d("service :: ", service.toString())
         Log.d("call :: ", call.toString())

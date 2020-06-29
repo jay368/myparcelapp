@@ -15,6 +15,7 @@ import com.example.myparcelapp.R
 import com.example.myparcelapp.model.UserVO
 import com.example.myparcelapp.service.UserService
 import com.example.myparcelapp.utils.RetrofitClientInstance
+import com.example.myparcelapp.utils.Uuid
 import kotlinx.android.synthetic.main.activity_buy.*
 import kotlinx.android.synthetic.main.layout_order_product.view.*
 import retrofit2.Call
@@ -43,7 +44,7 @@ class BuyActivity : Activity() {
         buyImageList = intent.getStringArrayListExtra("buyImageList")
         total = intent.getIntExtra("total",0)
         wb = WebView(this)
-        wb.loadUrl("$ip/sessiontest/")
+        wb.loadUrl("$ip/sessiontest/?usercode=${Uuid.userIndex}")
         wb.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView, url:String) {
                 super.onPageFinished(view, url)
@@ -68,7 +69,7 @@ class BuyActivity : Activity() {
 
         textview_total.text = total.toString()
         val service = RetrofitClientInstance.retrofitInstance?.create(UserService::class.java)
-        val call = service?.user(resources.getString(R.string.temporarilyUsercode))
+        val call = service?.user(Uuid.userIndex,"0")
         call?.enqueue(object : Callback<UserVO> {
             override fun onFailure(call: Call<UserVO>, t: Throwable) {
                 Log.d("Error :: ", t.toString())
@@ -111,7 +112,7 @@ class BuyActivity : Activity() {
                 num += "_"
         }
 
-        val parameter = "p=${URLEncoder.encode(p, "UTF-8")}&num=${URLEncoder.encode(num, "UTF-8")}&ordererIndex=${resources.getString(R.string.temporarilyUsercode)}&area=${text_address.text}&flag=1"
+        val parameter = "p=${URLEncoder.encode(p, "UTF-8")}&num=${URLEncoder.encode(num, "UTF-8")}&ordererIndex=${Uuid.userIndex}&area=${text_address.text}&flag=1"
         wb.postUrl("$ip/ordering", parameter.toByteArray())
         Toast.makeText(this,resources.getString(R.string.OrderingComplete),Toast.LENGTH_LONG).show()
         finish()
